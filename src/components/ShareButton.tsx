@@ -14,7 +14,7 @@ interface Props {
 export function ShareButton({ typeLabel, resultUrl }: Props) {
   const [copied, setCopied] = useState(false);
 
-  const shareText = `私は「${typeLabel}」タイプでした！ #${appConfig.displayName}`;
+  const shareText = `私は「${typeLabel}」でした！ #${appConfig.displayName}`;
   const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(resultUrl)}`;
 
   const handleCopy = useCallback(async () => {

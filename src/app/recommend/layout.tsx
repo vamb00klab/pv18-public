@@ -1,14 +1,15 @@
 import type { Metadata } from "next"
+import { appConfig } from "@/lib/config"
 
 export const metadata: Metadata = {
-  title: "楽曲レコメンド",
+  title: "ポケミクおすすめ曲",
   description: "今の気分に刺さるポケミク曲、探してみない？",
   openGraph: {
-    title: "楽曲レコメンド",
+    title: `ポケミクおすすめ曲 | ${appConfig.displayName}`,
     description: "今の気分に刺さるポケミク曲、探してみない？",
   },
   twitter: {
-    title: "楽曲レコメンド",
+    title: `ポケミクおすすめ曲 | ${appConfig.displayName}`,
     description: "今の気分に刺さるポケミク曲、探してみない？",
   },
 }

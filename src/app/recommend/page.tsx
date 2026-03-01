@@ -794,7 +794,7 @@ export default function RecommendPage() {
             {/* シェアボタン（再生開始後に表示） */}
             {results.length > 0 && activeVideoId !== null && (() => {
               const best = results[0].song
-              const shareUrl = `${appConfig.baseUrl}/recommend`
+              const shareUrl = `${appConfig.baseUrl}/`
               const shareText = `「${best.title} / ${best.artist}」がおすすめ！\n#ポケミク #ポケミクライブ`
               const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`
               return (
