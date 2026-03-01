@@ -1,0 +1,26 @@
+id,title,artist,energy,vibes,pokemon_gen,pokemon_types,pokemon_names,priority,approx_views,is_highlight
+tabidachi-no-uta,たびだちのうた,烏屋茶房,mid,emotional;bright,,,,0,1000000,false
+doki-doki,ドキドキ！,すりぃ,high,bright;cute,,,,0,2000000,false
+ooparts,オーパーツ,煮ル果実,mid,cool;experimental,,,,0,1500000,false
+volteccer,ボルテッカー,DECO*27,high,bright;cool;cute,gen1-2,electric,Pikachu,0,10000000,true
+denki-yoho,電気予報,稲葉曇,low,cool;emotional,gen6+,electric,Miraidon,0,3000000,true
+mirai-donna-daro,ミライどんなだろう,Mitchie M,mid,bright;emotional,,,,0,2000000,true
+pocket-no-monster,ポケットのモンスター,ピノキオピー,mid,bright;experimental,,fire;water;grass,,0,2000000,false
+battle-hatsune-miku,戦闘！初音ミク,cosMo@暴走P,high,dramatic;cool,gen1-2,ghost;poison,Gengar,0,2000000,false
+kimi-to-sora-wo-tobu,きみとそらをとぶ,傘村トータ,mid,bright;emotional,gen3-5,water;flying,Mudkip,0,800000,false
+gatchu,ガッチュー！,Giga,high,bright;cute,gen1-2,fire;water;grass;psychic,Mew,0,5000000,true
+juvenile,JUVENILE,じん,mid,emotional;dramatic,gen1-2,normal,Eevee,0,4000000,true
+ore-ghost-type,俺ゴーストタイプ,syudou,mid,cool;dramatic,gen1-2,ghost;poison,Gengar,0,5000000,true
+go-team-bippa,ゴー！ビッパ団,じーざすP / Wonderful★Opportunity!,high,bright;cute,gen3-5,normal,Bidoof;Bibarel,0,1000000,false
+hyu-doro-doro,ひゅ～どろどろ,栗山夕璃,mid,experimental;dramatic,,,,0,500000,false
+encounter,Encounter,Orangestar,mid,emotional;bright,,,,0,2000000,false
+mugen-no-ticket,むげんのチケット,まらしぃ,mid,emotional;bright,,,,0,1500000,false
+party-rock-eternity,PARTY ROCK ETERNITY,八王子P,high,bright;cool,gen1-2,normal;poison,,0,2000000,false
+tabi-no-mae-ato,たびのまえ、たびのあと,いよわ,low,cool;emotional,gen1-2,electric,Pichu,0,2500000,true
+esper-esper,エスパーエスパー,ナユタン星人,mid,bright;cute,,psychic,,0,4000000,true
+merome-roid,メロメロイド,かいりきベア,high,cute;bright,,,,0,3000000,true
+glorious-day,Glorious Day,Eve,high,dramatic;bright,gen3-5,psychic;fairy,Gardevoir,0,8000000,true
+after-epochx,アフターエポックス,sasakure.UK,mid,emotional;dramatic;experimental,,,,0,1000000,false
+champion,チャンピオン,Kanaria,high,cool;bright,,,,0,10000000,true
+shinka-shinka-shinka,しんかしんかしんか,原口沙輔,high,dramatic;bright,,,,0,1500000,false
+facade-question,ファサード・クエスチョン,サツキ,high,dramatic;cool,,,,0,1500000,false

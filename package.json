@@ -1,0 +1,45 @@
+{
+  "name": "pv18",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "dev:mobile": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "deploy": "npm run type-check && npm test && npm run lint && npm run build && git push pi develop",
+    "deploy:fast": "npm run type-check && npm test && npm run lint && npm run build && bash scripts/deploy-fast.sh",
+    "deploy:hook": "scp scripts/hooks/post-receive bambookpi@bamb00kpi.local:/home/bambookpi/repos/pv18.git/hooks/post-receive && ssh bambookpi@bamb00kpi.local 'chmod +x /home/bambookpi/repos/pv18.git/hooks/post-receive && echo Hook deployed OK'",
+    "test:e2e": "playwright test",
+    "test:e2e:update": "playwright test --update-snapshots"
+  },
+  "dependencies": {
+    "next": "^14.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@vitejs/plugin-react": "^5.1.4",
+    "@vitest/coverage-v8": "^1",
+    "autoprefixer": "^10",
+    "eslint": "^8",
+    "eslint-config-next": "^14.2.0",
+    "jsdom": "^28.1.0",
+    "postcss": "^8",
+    "prettier": "^3",
+    "tailwindcss": "^3",
+    "typescript": "^5",
+    "vitest": "^1"
+  }
+}

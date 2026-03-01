@@ -1,0 +1,349 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+
+html {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* ── volt-divider ──────────────────────────────────────────────────────────
+   Horizontal rule with a running spark animation.
+   Usage: className="volt-divider"
+ */
+.volt-divider {
+  border-bottom: 1px solid #2a2a2a;
+  position: relative;
+  overflow: hidden;
+}
+
+.volt-divider::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: -60%;
+  width: 40%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #fee023, #43d9bf, transparent);
+  animation: volt-spark 4s linear infinite;
+}
+
+/* ── volt-spark-bar ────────────────────────────────────────────────────────
+   Shimmer overlay for gradient progress bars.
+   Usage: className="volt-spark-bar"
+ */
+.volt-spark-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.volt-spark-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.45), transparent);
+  animation: volt-spark 4s linear infinite;
+}
+
+/* ── @keyframes volt-spark ─────────────────────────────────────────────────
+   Spark sweeps from left to right, pauses at both ends (35%→65% window).
+ */
+@keyframes volt-spark {
+  0%   { left: -60%; }
+  35%  { left: -60%; }
+  65%  { left: 110%; }
+  100% { left: 110%; }
+}
+
+/* ── page-enter ────────────────────────────────────────────────────────────
+   Fade-up entrance animation for page content.
+   Usage: className="page-enter"
+ */
+.page-enter {
+  animation: page-enter 0.4s ease-out;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── SVG particle animations ────────────────────────────────────────────────────
+   Floating dots and firefly orbs in /recommend background.
+   Apply className="svg-particle" to SVG <circle> elements.
+ */
+
+.svg-particle {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* 3種類の浮遊パターン（ドット用） */
+@keyframes dot-float-a {
+  0%, 100% { transform: translate(0px,  0px); }
+  33%       { transform: translate(3px, -8px); }
+  66%       { transform: translate(-4px, -3px); }
+}
+
+@keyframes dot-float-b {
+  0%, 100% { transform: translate(0px, 0px); }
+  33%       { transform: translate(-5px, 4px); }
+  66%       { transform: translate(3px,  8px); }
+}
+
+@keyframes dot-float-c {
+  0%, 100% { transform: translate(0px, 0px); }
+  50%       { transform: translate(5px, -6px); }
+}
+
+/* ホタル: 光の点滅 + 微移動 */
+@keyframes firefly-pulse {
+  0%,  100% { opacity: 0.12; transform: scale(1)   translate(0px,   0px); }
+  20%        { opacity: 0.70; transform: scale(1.4) translate(2px,  -4px); }
+  45%        { opacity: 0.18; transform: scale(0.9) translate(-2px,  2px); }
+  70%        { opacity: 0.60; transform: scale(1.3) translate(-3px, -2px); }
+  85%        { opacity: 0.20; transform: scale(1.0) translate(1px,   3px); }
+}
+
+/* ── Result-phase energy effects ────────────────────────────────────────────
+   Energy-specific overlays for /recommend result phase.
+   high  → (未実装・検討中)
+   mid   → firefly-pulse を流用（シアン大型）
+   low   → snow-fall    (紫の霧・ゆっくり落下)
+*/
+
+/* Low energy: 霧・雪 ゆっくり落下 */
+@keyframes snow-fall {
+  0%   { transform: translate(0px, 0px);    opacity: 0;   }
+  5%   { opacity: 0.55; }
+  90%  { opacity: 0.35; }
+  100% { transform: translate(12px, 110vh); opacity: 0;   }
+}
+
+/* ── volt-embed-frame: YouTube ビデオ埋め込み用アニメーションボーダー ───────
+   ミク(#43d9bf) × ピカチュウ(#fee023) カラーの conic-gradient を回転させて
+   縁取りを生成する。overflow:hidden したレイヤーの ::before を rotate するため
+   GPU コンポジター処理のみで動作し、SVG filter より大幅に低負荷。
+
+   使用法（JSX）:
+     <div className="volt-embed-frame w-full">
+       <div className="vef-glow" />
+       <div className="vef-dark" />
+       <div className="vef-white" />
+       <div className="vef-line" />
+       <div className="vef-inner">{コンテンツ}</div>
+     </div>
+*/
+
+.volt-embed-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+}
+
+/* 全ボーダーレイヤー共通 */
+.vef-glow,
+.vef-dark,
+.vef-white,
+.vef-line {
+  position: absolute;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* コンテンツ（iframe / button）を上に重ねる */
+.vef-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* A. 外側グロー — 広めにはみ出してソフトに */
+.vef-glow {
+  inset: -6px;
+  border-radius: 16px;
+  filter: blur(20px);
+  opacity: 0.5;
+}
+
+.vef-glow::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 900px; height: 900px;
+  background-image: conic-gradient(
+    #000,
+    #fee023 5%,
+    #000 38%,
+    #000 50%,
+    #43d9bf 60%,
+    #000 87%
+  );
+  animation: vef-spin 5s linear infinite;
+}
+
+/* B. ダークボーダー（輪郭を引き締める） */
+.vef-dark {
+  inset: -2px;
+  border-radius: 12px;
+  filter: blur(3px);
+}
+
+.vef-dark::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 900px; height: 900px;
+  background-image: conic-gradient(
+    rgba(0,0,0,0),
+    rgba(254,224,35,0.55),
+    rgba(0,0,0,0) 10%,
+    rgba(0,0,0,0) 50%,
+    rgba(67,217,191,0.55),
+    rgba(0,0,0,0) 60%
+  );
+  animation: vef-spin 5s linear infinite;
+}
+
+/* C. ブライトリング（メインカラー点灯） */
+.vef-white {
+  inset: -1px;
+  border-radius: 11px;
+  filter: blur(2px) brightness(1.4);
+}
+
+.vef-white::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 900px; height: 900px;
+  background-image: conic-gradient(
+    rgba(0,0,0,0) 0%,
+    #43d9bf,
+    rgba(0,0,0,0) 8%,
+    rgba(0,0,0,0) 50%,
+    #fee023,
+    rgba(0,0,0,0) 58%
+  );
+  animation: vef-spin 5s linear infinite;
+}
+
+/* D. シャープな縁線 */
+.vef-line {
+  inset: 0;
+  border-radius: 10px;
+  filter: blur(0.5px) brightness(1.3);
+}
+
+.vef-line::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 900px; height: 900px;
+  background-image: conic-gradient(
+    #0e0c00,
+    #fee023 5%,
+    #0e0c00 14%,
+    #0e0c00 50%,
+    #43d9bf 60%,
+    #0e0c00 64%
+  );
+  animation: vef-spin 5s linear infinite;
+}
+
+@keyframes vef-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ── Dev: high-energy effect previews ───────────────────────────────────────
+   /dev/high-effects ページ専用。本番ページでは参照されない。
+   A. dev-spin          — conic-gradient ビーム回転
+   B. dev-shadow-pulse  — box-shadow 黄色グロー拍動
+   D. dev-stripe-scan   — 走査線（C は既存 firefly-pulse を流用）
+*/
+
+@keyframes dev-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes dev-shadow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 12px 4px rgba(254,224,35,0.35),
+                0 0 30px 10px rgba(254,224,35,0.18);
+  }
+  50% {
+    box-shadow: 0 0 45px 18px rgba(254,224,35,0.70),
+                0 0 80px 35px rgba(254,224,35,0.32);
+  }
+}
+
+@keyframes dev-stripe-scan {
+  0%   { top: -2px;    opacity: 0;    }
+  5%   {               opacity: 0.45; }
+  90%  {               opacity: 0.30; }
+  100% { top: 100vh;   opacity: 0;    }
+}
+
+/* ── /songs カードホバー ──────────────────────────────────────────────────
+   新曲: #fee023（黄・3px太め枠）、ホバー: #43d9bf（シアン）、動画再生中: シアン + グロー
+ */
+@keyframes playing-glow {
+  0%, 100% { box-shadow: 0 0 6px rgba(67, 217, 191, 0.35); }
+  50%       { box-shadow: 0 0 16px rgba(67, 217, 191, 0.70); }
+}
+
+/* レコメンド結果: BEST カード ▶ ボタン再生誘導（黄色パルス・未再生時のみ）
+   box-shadow は親の overflow-hidden でクリップされるため filter: drop-shadow() を使用 */
+@keyframes best-invite-pulse {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(254, 224, 35, 0.45)); }
+  50%       { filter: drop-shadow(0 0 10px rgba(254, 224, 35, 0.95)) drop-shadow(0 0 20px rgba(254, 224, 35, 0.55)); }
+}
+.best-invite-pulse {
+  animation: best-invite-pulse 2s ease-in-out infinite;
+}
+.song-card {
+  background: #111111;
+  overflow: hidden;
+  border: 2px solid #2a2a2a;
+  transition: border-color 0.2s;
+}
+.song-card.is-new {
+  border-width: 3px;
+  border-color: #fee023;
+}
+.song-card:not(.is-active):hover {
+  border-color: #43d9bf;
+}
+.song-card.is-active {
+  border-color: #43d9bf;
+  animation: playing-glow 1.8s ease-in-out infinite;
+}
+
+/* ── details-arrow ─────────────────────────────────────────────────────────
+   Rotate arrow icon when <details> is open.
+   Usage: <span className="details-arrow">▶</span>
+ */
+.details-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+details[open] .details-arrow {
+  transform: rotate(90deg);
+}
