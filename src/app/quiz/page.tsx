@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import { QuizFlow } from "@/components/QuizFlow";
 import { getContentPack } from "@/lib/contentPack";
 import { selectQuestions } from "@/lib/selectQuestions";
+
+export const metadata: Metadata = {
+  title: "タイプ診断",
+  description: "キミの中に眠る「タイプ」を見つけよう — 15問の質問で18タイプから診断",
+};
 
 /**
  * Quiz page ("/quiz")

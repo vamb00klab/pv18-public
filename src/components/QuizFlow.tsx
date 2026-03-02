@@ -145,7 +145,7 @@ export function QuizFlow({ questions }: Props) {
 
   return (
     <div
-      className="relative min-h-screen flex flex-col px-4 overflow-hidden"
+      className="relative min-h-screen flex flex-col px-3 sm:px-4 overflow-hidden"
       style={{ background: "linear-gradient(135deg, #0e0c00 0%, #00110e 100%)" }}
     >
       {/* 背景レイヤー 1: グリッドライン */}
@@ -227,14 +227,14 @@ export function QuizFlow({ questions }: Props) {
 
       {/* コンテンツ */}
       {/* Logo header */}
-      <div className="relative z-10 pt-5 pb-3">
+      <div className="relative z-10 pt-4 pb-2 sm:pt-5 sm:pb-3">
         <PageHeader subLabel="- Type Diagnosis -" />
       </div>
 
-      <div className="relative z-10 flex flex-col items-center pt-4 pb-12">
+      <div className="relative z-10 flex flex-col items-center pt-3 sm:pt-4 pb-8 sm:pb-12">
 
         {/* Progress bar */}
-        <div className="w-full max-w-2xl mb-8">
+        <div className="w-full max-w-2xl mb-5 sm:mb-8">
           <div className="flex justify-between text-sm text-volt-muted mb-2">
             <span>質問 {currentIndex + 1} / {activeQuestions.length}</span>
             <span aria-hidden="true">{Math.round(progressPct)}%</span>
@@ -261,7 +261,7 @@ export function QuizFlow({ questions }: Props) {
 
         {/* Question card — glassmorphism */}
         <div
-          className="w-full max-w-2xl p-8"
+          className="w-full max-w-2xl p-5 sm:p-8"
           style={{
             background: "rgba(255,255,255,0.88)",
             backdropFilter: "blur(12px)",
@@ -272,15 +272,15 @@ export function QuizFlow({ questions }: Props) {
         >
           {/* アクセントバー */}
           <div
+            className="-mx-5 -mt-5 mb-5 sm:-mx-8 sm:-mt-8 sm:mb-8"
             style={{
               height: "4px",
               background: "linear-gradient(to right, #fee023, #43d9bf)",
-              margin: "-32px -32px 32px -32px",
             }}
           />
           <h2
             id={questionHeadingId}
-            className="text-xl font-bold mb-8 leading-relaxed"
+            className="text-lg sm:text-xl font-bold mb-5 sm:mb-8 leading-relaxed"
             style={{ color: "#0F172A" }}
           >
             {question.text}
@@ -289,7 +289,7 @@ export function QuizFlow({ questions }: Props) {
           <div
             role="radiogroup"
             aria-labelledby={questionHeadingId}
-            className="space-y-3"
+            className="space-y-2 sm:space-y-3"
           >
             {question.options.map((option, i) => {
               const isChecked = selected === option.id;
@@ -303,7 +303,7 @@ export function QuizFlow({ questions }: Props) {
                   onClick={() => handleOptionClick(option.id)}
                   onKeyDown={(e) => handleOptionKeyDown(e, i)}
                   tabIndex={isChecked || (selected === null && i === 0) ? 0 : -1}
-                  className="w-full text-left px-5 py-4 rounded-xl transition-all duration-150 font-semibold leading-snug"
+                  className="w-full text-left btn-option sm:px-5 sm:py-4 sm:text-base transition-all duration-150 leading-snug"
                   style={{
                     borderStyle: "solid",
                     borderLeftWidth: "4px",

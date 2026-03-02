@@ -32,6 +32,8 @@
  */
 import type { PersonaType } from "@/types/persona";
 
+const ILLUST = "https://www.project-voltage.jp/illust.html";
+
 export const pokemonTypes: PersonaType[] = [
   // 1 — ほのお
   {
@@ -39,13 +41,14 @@ export const pokemonTypes: PersonaType[] = [
     label: "ほのおタイプ",
     shortLabel: "FIRE",
     description:
-      "情熱と闘志を燃やし続ける、熱血漢。どんな逆境も炎のような意志で焼き払い、仲間を鼓舞して前へ進む。",
-    traits: ["情熱的", "行動力", "熱血", "勇気"],
+      "情熱と闘志を燃やし続ける、熱いパフォーマー。どんな逆境も炎のような意志で焼き払い、仲間を鼓舞して前へ進む。",
+    traits: ["情熱的", "行動力", "熱血", "鼓舞力"],
     color: "#FF612C",
     bgColor: "#FFF2EE",
-    suitableFor: ["直感でまず動ける", "熱中対象があると爆発的に伸びる", "主導権を握って推進したい", "勝負所でアクセルを踏める"],
+    suitableFor: ["直感でまず動ける", "熱中対象があると爆発的に伸びる", "主導権を握って推進したい", "仲間と熱いセッションで盛り上がれる"],
     strengths: ["推進力・突破力", "周囲を巻き込む熱量"],
     weaknesses: ["飽きやすくムラが出る", "詰めや検証が後回しになりがち"],
+    officialUrl: `${ILLUST}#illust03`,
   },
   // 2 — みず
   {
@@ -60,6 +63,7 @@ export const pokemonTypes: PersonaType[] = [
     suitableFor: ["空気を察しやすい", "状況対応力が高い", "調整役になれる", "受け止め役"],
     strengths: ["柔軟性", "協調性"],
     weaknesses: ["流されやすい", "疲れを溜めやすい"],
+    officialUrl: `${ILLUST}#illust04`,
   },
   // 3 — くさ
   {
@@ -67,13 +71,14 @@ export const pokemonTypes: PersonaType[] = [
     label: "くさタイプ",
     shortLabel: "GRASS",
     description:
-      "穏やかで思いやり深く、人と自然をつなぐ存在。じっくりと根を張り、周囲を癒しながら成長し続ける。",
-    traits: ["思いやり", "協調性", "粘り強さ", "癒し"],
+      "仲間を全力で応援し、チームの力を引き出す。明るいエネルギーと持ち前のリズム感で、周囲を元気づける存在。",
+    traits: ["応援力", "チームワーク", "明るさ", "リズム感"],
     color: "#42BF24",
     bgColor: "#F0FAEE",
-    suitableFor: ["継続型", "育成志向", "裏方向き", "長期志向"],
-    strengths: ["継続力", "忍耐力"],
-    weaknesses: ["変化に弱い", "保守的"],
+    suitableFor: ["チームを盛り上げられる", "一緒にいると元気が出ると言われる", "協力して成果を出すのが好き", "リズムよく物事を進められる"],
+    strengths: ["チームを鼓舞する力", "共感しながら支える力"],
+    weaknesses: ["自分のことは後回しになりがち", "頑張りすぎて息切れする"],
+    officialUrl: `${ILLUST}#illust02`,
   },
   // 4 — でんき
   {
@@ -81,13 +86,14 @@ export const pokemonTypes: PersonaType[] = [
     label: "でんきタイプ",
     shortLabel: "ELECTRIC",
     description:
-      "鋭い閃きと素早い判断で、場の空気を一変させる。予測不能な発想が、周囲に新鮮な刺激と活力をもたらす。",
-    traits: ["機敏", "閃き", "エネルギッシュ", "創造性"],
+      "鋭い閃きとサプライズで、場の空気を一変させるエンターテイナー。予測不能な発想で周囲を驚かせ、新鮮な興奮をもたらす。",
+    traits: ["閃き", "サプライズ", "エネルギッシュ", "演出力"],
     color: "#FFDB00",
     bgColor: "#FFFCEB",
-    suitableFor: ["発想豊富", "新規好き", "行動が早い", "発信型"],
-    strengths: ["創造性", "スピード"],
+    suitableFor: ["発想豊富", "サプライズ好き", "行動が早い", "注目を集めたい"],
+    strengths: ["演出力・サプライズ力", "スピード"],
     weaknesses: ["散漫", "継続力不足"],
+    officialUrl: `${ILLUST}#illust05`,
   },
   // 5 — こおり
   {
@@ -95,13 +101,14 @@ export const pokemonTypes: PersonaType[] = [
     label: "こおりタイプ",
     shortLabel: "ICE",
     description:
-      "冷静な分析力と精密な思考の持ち主。感情に流されず、鋭い観察眼で物事の本質を静かに見抜く。",
-    traits: ["冷静", "分析力", "精密", "理知的"],
+      "冷静な分析力と鋭い判断の持ち主。感情に流されず、クールな視点で物事の本質を見抜くプロフェッショナル。",
+    traits: ["冷静", "分析力", "鋭敏", "プロ意識"],
     color: "#42D8FF",
     bgColor: "#F0FCFF",
-    suitableFor: ["論理型", "冷静", "分析派", "客観視"],
+    suitableFor: ["論理型", "冷静沈着", "分析派", "プロフェッショナル志向"],
     strengths: ["判断力", "客観性"],
     weaknesses: ["冷たく見える", "共感不足"],
+    officialUrl: `${ILLUST}#illust07`,
   },
   // 6 — かくとう
   {
@@ -116,6 +123,7 @@ export const pokemonTypes: PersonaType[] = [
     suitableFor: ["努力型", "負けず嫌い", "根性派", "成長志向"],
     strengths: ["粘り強さ", "精神力"],
     weaknesses: ["無理しがち", "視野狭窄"],
+    officialUrl: `${ILLUST}#illust17`,
   },
   // 7 — どく
   {
@@ -123,13 +131,14 @@ export const pokemonTypes: PersonaType[] = [
     label: "どくタイプ",
     shortLabel: "POISON",
     description:
-      "複雑な物事の本質を見抜く洞察力を持つ。表に見えないものを感じ取り、独自の知恵で周囲を導く。",
-    traits: ["洞察力", "神秘的", "直観", "深淵"],
+      "既存の常識をひっくり返す実験精神と洞察力。表に見えないものを感じ取り、科学的な好奇心で独自の解を見つけ出す。",
+    traits: ["洞察力", "実験精神", "直観", "独創性"],
     color: "#994DCF",
     bgColor: "#F7F1FB",
-    suitableFor: ["独自路線", "戦略型", "逆張り", "空気読める"],
-    strengths: ["差別化", "戦略性"],
+    suitableFor: ["独自路線", "実験好き", "逆張り", "科学的思考"],
+    strengths: ["実験力・検証力", "差別化"],
     weaknesses: ["誤解されやすい", "皮肉的"],
+    officialUrl: `${ILLUST}#illust13`,
   },
   // 8 — じめん
   {
@@ -144,6 +153,7 @@ export const pokemonTypes: PersonaType[] = [
     suitableFor: ["現実派", "計画型", "堅実", "管理型"],
     strengths: ["実行力", "信頼性"],
     weaknesses: ["保守的", "柔軟性不足"],
+    officialUrl: `${ILLUST}#illust09`,
   },
   // 9 — ひこう
   {
@@ -158,6 +168,7 @@ export const pokemonTypes: PersonaType[] = [
     suitableFor: ["自由志向", "行動派", "好奇心旺盛", "軽快"],
     strengths: ["機動力", "発想力"],
     weaknesses: ["定着しない", "ルーズ"],
+    officialUrl: `${ILLUST}#illust10`,
   },
   // 10 — エスパー
   {
@@ -172,6 +183,7 @@ export const pokemonTypes: PersonaType[] = [
     suitableFor: ["直感派", "洞察型", "抽象思考", "内省型"],
     strengths: ["洞察力", "先読み"],
     weaknesses: ["考えすぎ", "繊細"],
+    officialUrl: `${ILLUST}#illust01`,
   },
   // 11 — むし
   {
@@ -179,13 +191,14 @@ export const pokemonTypes: PersonaType[] = [
     label: "むしタイプ",
     shortLabel: "BUG",
     description:
-      "小さな積み重ねと細やかな連携が大きな力を生む。地道な努力と粘り強さで、不可能を可能にする。",
-    traits: ["協力", "細やか", "連携", "粘り強さ"],
+      "小さな美しさや儚さに心を寄せる繊細な感性。細やかな連携と地道な積み重ねで、静かに大きな力を生む。",
+    traits: ["繊細", "細やか", "連携", "粘り強さ"],
     color: "#9FA424",
     bgColor: "#F7F8EE",
-    suitableFor: ["専門志向", "集中型", "改善型", "こだわり"],
-    strengths: ["専門性", "深掘力"],
+    suitableFor: ["専門志向", "集中型", "繊細な感性を活かせる", "こだわり"],
+    strengths: ["繊細な感性", "深掘力"],
     weaknesses: ["視野狭窄", "説明下手"],
+    officialUrl: `${ILLUST}#illust12`,
   },
   // 12 — いわ
   {
@@ -200,6 +213,7 @@ export const pokemonTypes: PersonaType[] = [
     suitableFor: ["信念型", "責任感", "耐久型", "安定志向"],
     strengths: ["安定感", "忍耐力"],
     weaknesses: ["頑固", "変化苦手"],
+    officialUrl: `${ILLUST}#illust08`,
   },
   // 13 — ゴースト
   {
@@ -214,6 +228,7 @@ export const pokemonTypes: PersonaType[] = [
     suitableFor: ["内向型", "想像派", "世界観重視", "夜型"],
     strengths: ["独創性", "表現力"],
     weaknesses: ["孤立", "気分屋"],
+    officialUrl: `${ILLUST}#illust14`,
   },
   // 14 — ドラゴン
   {
@@ -228,6 +243,7 @@ export const pokemonTypes: PersonaType[] = [
     suitableFor: ["高理想", "向上心", "勉強家", "挑戦型"],
     strengths: ["学習力", "影響力"],
     weaknesses: ["完璧主義", "プレッシャー過多"],
+    officialUrl: `${ILLUST}#illust18`,
   },
   // 15 — あく
   {
@@ -235,13 +251,14 @@ export const pokemonTypes: PersonaType[] = [
     label: "あくタイプ",
     shortLabel: "DARK",
     description:
-      "光と影を等しく見つめ、現実を冷静に受け止める力がある。独自の価値観を軸に、ぶれることなく自分の道を歩む。",
-    traits: ["内省", "知恵", "哲学的", "深沈"],
+      "洗練された存在感と、冷静な判断力。光と影の両面を見据え、独自の美意識とカリスマで周囲を導く。",
+    traits: ["洗練", "知恵", "カリスマ", "冷静"],
     color: "#4F4747",
     bgColor: "#F1F0F0",
-    suitableFor: ["合理派", "割り切り型", "現実志向", "交渉型"],
-    strengths: ["判断力", "交渉力"],
+    suitableFor: ["統率力がある", "洗練された美意識", "現実志向", "交渉型"],
+    strengths: ["統率力・カリスマ", "交渉力"],
     weaknesses: ["冷酷視", "摩擦"],
+    officialUrl: `${ILLUST}#illust15`,
   },
   // 16 — はがね
   {
@@ -249,13 +266,14 @@ export const pokemonTypes: PersonaType[] = [
     label: "はがねタイプ",
     shortLabel: "STEEL",
     description:
-      "強い精神と完璧主義的な姿勢。高い基準を持ち、確かな技術と不屈の意志力で理想を形にする。",
-    traits: ["完璧主義", "意志力", "職人気質", "精密"],
+      "理想を追い求め、長い旅路を歩み続ける求道者。高い基準と不屈の意志で、確かな技術を磨き続ける。",
+    traits: ["探求心", "意志力", "職人気質", "精密"],
     color: "#6AAED3",
     bgColor: "#F3F9FC",
-    suitableFor: ["規律派", "正確型", "管理型", "品質重視"],
-    strengths: ["品質", "統制力"],
+    suitableFor: ["求道者タイプ", "正確型", "長期目標に向かえる", "品質重視"],
+    strengths: ["探求心", "品質"],
     weaknesses: ["融通不足", "硬直"],
+    officialUrl: `${ILLUST}#illust16`,
   },
   // 17 — フェアリー
   {
@@ -263,13 +281,14 @@ export const pokemonTypes: PersonaType[] = [
     label: "フェアリータイプ",
     shortLabel: "FAIRY",
     description:
-      "温かな愛情と魅力的な人柄。人を惹きつけ、周囲に幸福と笑顔をもたらす特別な輝きを持つ。",
-    traits: ["愛情", "魅力", "共感", "幸福"],
+      "温かな愛情と親しみやすい人柄。気取らない自然体で人を惹きつけ、周囲に笑顔と幸福をもたらす。",
+    traits: ["愛情", "親しみ", "共感", "笑顔"],
     color: "#FEB1FD",
     bgColor: "#FFF9FF",
-    suitableFor: ["共感型", "支援型", "平和志向", "優しい"],
+    suitableFor: ["共感型", "支援型", "平和志向", "誰とでもすぐ仲良くなれる"],
     strengths: ["調和力", "包容力"],
     weaknesses: ["気疲れ", "依存傾向"],
+    officialUrl: `${ILLUST}#illust11`,
   },
   // 18 — ノーマル
   {
@@ -277,12 +296,13 @@ export const pokemonTypes: PersonaType[] = [
     label: "ノーマルタイプ",
     shortLabel: "NORMAL",
     description:
-      "特定の型にはまらず、どんな場でも自分の軸を保つ。着実な積み重ねが、やがて揺るがない信頼と実績になる。",
-    traits: ["バランス", "安定", "実直", "堅実"],
+      "明るく社交的で、誰とでも自然に打ち解ける。場を盛り上げるコミュニケーションの達人で、人と人をつなぐ架け橋になる。",
+    traits: ["社交的", "コミュ力", "明るさ", "親しみ"],
     color: "#999999",
     bgColor: "#F7F7F7",
-    suitableFor: ["バランス型", "常識派", "適応型", "安定志向"],
-    strengths: ["汎用性", "安定感"],
-    weaknesses: ["個性薄", "優柔不断"],
+    suitableFor: ["ムードメーカー", "話し上手", "人脈を広げられる", "場を盛り上げるのが得意"],
+    strengths: ["コミュニケーション力", "場を明るくする力"],
+    weaknesses: ["八方美人になりがち", "深い専門性が育ちにくい"],
+    officialUrl: `${ILLUST}#illust06`,
   },
 ];

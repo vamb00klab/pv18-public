@@ -337,42 +337,42 @@ exports[`RecommendPage > 初期表示: Q1（感情選択）がレンダリング
           >
             <button
               aria-pressed="false"
-              class="px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-150"
+              class="btn-option transition-all duration-150"
               style="border: 1px rgba(15, 23, 42, 0.12); background: rgba(15, 23, 42, 0.04); color: rgb(15, 23, 42); outline: none; outline-offset: -1px;"
             >
               感動・泣ける
             </button>
             <button
               aria-pressed="false"
-              class="px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-150"
+              class="btn-option transition-all duration-150"
               style="border: 1px rgba(15, 23, 42, 0.12); background: rgba(15, 23, 42, 0.04); color: rgb(15, 23, 42); outline: none; outline-offset: -1px;"
             >
               懐かしい
             </button>
             <button
               aria-pressed="false"
-              class="px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-150"
+              class="btn-option transition-all duration-150"
               style="border: 1px rgba(15, 23, 42, 0.12); background: rgba(15, 23, 42, 0.04); color: rgb(15, 23, 42); outline: none; outline-offset: -1px;"
             >
               かわいい
             </button>
             <button
               aria-pressed="false"
-              class="px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-150"
+              class="btn-option transition-all duration-150"
               style="border: 1px rgba(15, 23, 42, 0.12); background: rgba(15, 23, 42, 0.04); color: rgb(15, 23, 42); outline: none; outline-offset: -1px;"
             >
               かっこいい
             </button>
             <button
               aria-pressed="false"
-              class="px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-150"
+              class="btn-option transition-all duration-150"
               style="border: 1px rgba(15, 23, 42, 0.12); background: rgba(15, 23, 42, 0.04); color: rgb(15, 23, 42); outline: none; outline-offset: -1px;"
             >
               チル・癒し
             </button>
             <button
               aria-pressed="false"
-              class="px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-150"
+              class="btn-option transition-all duration-150"
               style="border: 1px rgba(15, 23, 42, 0.12); background: rgba(15, 23, 42, 0.04); color: rgb(15, 23, 42); outline: none; outline-offset: -1px;"
             >
               疾走感・ノリ
@@ -382,7 +382,7 @@ exports[`RecommendPage > 初期表示: Q1（感情選択）がレンダリング
             class="flex justify-end"
           >
             <button
-              class="px-8 py-2.5 bg-volt-yellow text-black font-bold rounded-xl disabled:opacity-40 transition-opacity"
+              class="btn-primary bg-volt-yellow text-black disabled:opacity-40 transition-opacity"
               disabled=""
             >
               次へ →

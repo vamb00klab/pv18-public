@@ -1,12 +1,37 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-volt-yellow:  #fee023;
+  --color-volt-cyan:    #43d9bf;
+  --color-volt-surface: #111111;
+  --color-volt-edge:    #2a2a2a;
+  --color-volt-muted:   #8891a4;
+}
+
+/* ── Button size tokens ───────────────────────────────────────────────────
+   3 tiers: Primary (CTA), Option (quiz/recommend choices), Compact (links/chips).
+   Color and state styles are NOT included — add them per-context.
+ */
+.btn-primary {
+  @apply px-6 py-3 text-sm font-bold rounded-xl;
+}
+.btn-option {
+  @apply px-4 py-3 text-sm font-semibold rounded-xl;
+}
+.btn-compact {
+  @apply px-2.5 py-1.5 text-xs rounded-lg;
+}
 
 /* ── Base ─────────────────────────────────────────────────────────────────── */
 
 html {
   background-color: #000000;
   color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid #43d9bf;
+  outline-offset: 2px;
 }
 
 /* ── volt-divider ──────────────────────────────────────────────────────────

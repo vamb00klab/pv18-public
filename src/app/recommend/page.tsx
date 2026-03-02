@@ -5,6 +5,8 @@ import Link from "next/link"
 import Image from "next/image"
 import PageHeader from "@/components/PageHeader"
 import { SongLinkButtons } from "@/components/SongLinkButtons"
+import { SongIntro } from "@/components/SongIntro"
+import { GradientButton, GradientBorderLink } from "@/components/GradientButton"
 import { SONGS } from "@/data/songs"
 import { recommend } from "@/lib/recommend"
 import { appConfig } from "@/lib/config"
@@ -68,16 +70,16 @@ const CONTEXT_CHOICES: ContextChoice[] = [
 
 /** Q4: ポケモン世代（複数選択・スキップボタン付き） */
 const GEN_OPTIONS: { value: PkmnGenGroup; label: string; desc: string }[] = [
-  { value: "gen1-2", label: "赤・緑・青 / 金・銀 世代",            desc: "赤・緑・青・ピカチュウ版 / 金・銀・クリスタル" },
-  { value: "gen3-5", label: "ルビサファ〜ブラック・ホワイト 世代",  desc: "ルビサファ・エメラルド / ダイパ・プラチナ / ブラック・ホワイト" },
-  { value: "gen6+",  label: "X・Y〜スカーレット・バイオレット 世代", desc: "X・Y / サン・ムーン / ソード・シールド / スカーレット・バイオレット / Z-A" },
+  { value: "gen1-2", label: "赤・緑〜金・銀 世代",      desc: "初代〜第2世代（1996–2000年）" },
+  { value: "gen3-5", label: "ルビサファ〜BW 世代",      desc: "第3〜5世代（2002–2010年）" },
+  { value: "gen6+",  label: "X・Y〜SV 世代",            desc: "第6世代以降（2013年〜）" },
 ]
 
 /** Q5: ボーカロイドキャラクター（複数選択・スキップボタン付き） */
 const VOCALOID_OPTIONS: { value: VocaloidPref; label: string; desc: string }[] = [
   { value: "miku",    label: "初音ミク",         desc: "ミクの声で聴きたい" },
   { value: "rin_len", label: "鏡音リン / レン",  desc: "リンかレン参加曲" },
-  { value: "luka",    label: "巡音ルカ",         desc: "ルカの深みある声で" },
+  { value: "other",   label: "その他のキャラ",    desc: "ルカ・KAITO・MEIKO・テト" },
 ]
 
 
@@ -491,7 +493,7 @@ export default function RecommendPage() {
                     key={opt.value}
                     aria-pressed={feels.includes(opt.value)}
                     onClick={() => toggleFeel(opt.value)}
-                    className="px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-150"
+                    className="btn-option transition-all duration-150"
                     style={chipStyleCyan(feels.includes(opt.value))}
                   >
                     {opt.label}
@@ -502,7 +504,7 @@ export default function RecommendPage() {
                 <button
                   onClick={() => setStep(2)}
                   disabled={feels.length === 0}
-                  className="px-8 py-2.5 bg-volt-yellow text-black font-bold rounded-xl disabled:opacity-40 transition-opacity"
+                  className="btn-primary bg-volt-yellow text-black disabled:opacity-40 transition-opacity"
                 >
                   次へ →
                 </button>
@@ -525,11 +527,11 @@ export default function RecommendPage() {
                     key={opt.value}
                     aria-pressed={tempoChoice === opt.value}
                     onClick={() => setTempoChoice(opt.value)}
-                    className="w-full text-left px-4 py-3 rounded-xl transition-all duration-150"
+                    className="w-full text-left btn-option transition-all duration-150"
                     style={optionStyleCyan(tempoChoice === opt.value)}
                   >
-                    <span className="text-base font-semibold">{opt.label}</span>
-                    <span className="block text-sm mt-0.5" style={{ color: "#64748b" }}>{opt.desc}</span>
+                    {opt.label}
+                    <span className="block text-sm font-normal mt-0.5" style={{ color: "#64748b" }}>{opt.desc}</span>
                   </button>
                 ))}
               </div>
@@ -537,7 +539,7 @@ export default function RecommendPage() {
                 <button
                   onClick={() => setStep(3)}
                   disabled={tempoChoice === null}
-                  className="px-8 py-2.5 bg-volt-yellow text-black font-bold rounded-xl disabled:opacity-40 transition-opacity"
+                  className="btn-primary bg-volt-yellow text-black disabled:opacity-40 transition-opacity"
                 >
                   次へ →
                 </button>
@@ -561,10 +563,10 @@ export default function RecommendPage() {
                     key={opt.id}
                     aria-pressed={contextChoices.includes(opt.id)}
                     onClick={() => toggleContext(opt.id)}
-                    className="w-full text-left px-4 py-3 rounded-xl transition-all duration-150"
+                    className="w-full text-left btn-option transition-all duration-150"
                     style={optionStyleCyan(contextChoices.includes(opt.id))}
                   >
-                    <span className="text-base font-semibold">{opt.label}</span>
+                    {opt.label}
                   </button>
                 ))}
               </div>
@@ -579,7 +581,7 @@ export default function RecommendPage() {
                 </button>
                 <button
                   onClick={() => setStep(4)}
-                  className="px-8 py-2.5 bg-volt-yellow text-black font-bold rounded-xl disabled:opacity-40 transition-opacity"
+                  className="btn-primary bg-volt-yellow text-black disabled:opacity-40 transition-opacity"
                   disabled={contextChoices.length === 0}
                 >
                   次へ →
@@ -604,11 +606,11 @@ export default function RecommendPage() {
                     key={opt.value}
                     aria-pressed={genChoices.includes(opt.value)}
                     onClick={() => toggleGen(opt.value)}
-                    className="w-full text-left px-4 py-3 rounded-xl transition-all duration-150"
+                    className="w-full text-left btn-option transition-all duration-150"
                     style={optionStyleCyan(genChoices.includes(opt.value))}
                   >
-                    <span className="text-base font-semibold">{opt.label}</span>
-                    <span className="block text-sm mt-0.5" style={{ color: "#64748b" }}>{opt.desc}</span>
+                    {opt.label}
+                    <span className="block text-sm font-normal mt-0.5" style={{ color: "#64748b" }}>{opt.desc}</span>
                   </button>
                 ))}
               </div>
@@ -623,7 +625,7 @@ export default function RecommendPage() {
                 </button>
                 <button
                   onClick={() => setStep(5)}
-                  className="px-8 py-2.5 bg-volt-yellow text-black font-bold rounded-xl disabled:opacity-40 transition-opacity"
+                  className="btn-primary bg-volt-yellow text-black disabled:opacity-40 transition-opacity"
                   disabled={genChoices.length === 0}
                 >
                   次へ →
@@ -648,11 +650,11 @@ export default function RecommendPage() {
                     key={opt.value}
                     aria-pressed={vocaloidChoices.includes(opt.value)}
                     onClick={() => toggleVocaloid(opt.value)}
-                    className="w-full text-left px-4 py-3 rounded-xl transition-all duration-150"
+                    className="w-full text-left btn-option transition-all duration-150"
                     style={optionStyleCyan(vocaloidChoices.includes(opt.value))}
                   >
-                    <span className="text-base font-semibold">{opt.label}</span>
-                    <span className="block text-sm mt-0.5" style={{ color: "#64748b" }}>{opt.desc}</span>
+                    {opt.label}
+                    <span className="block text-sm font-normal mt-0.5" style={{ color: "#64748b" }}>{opt.desc}</span>
                   </button>
                 ))}
               </div>
@@ -668,7 +670,7 @@ export default function RecommendPage() {
                 <button
                   onClick={() => handleSubmit()}
                   disabled={vocaloidChoices.length === 0}
-                  className="px-8 py-2.5 bg-volt-yellow text-black font-bold rounded-xl disabled:opacity-40 transition-opacity"
+                  className="btn-primary bg-volt-yellow text-black disabled:opacity-40 transition-opacity"
                 >
                   結果を見る →
                 </button>
@@ -686,7 +688,7 @@ export default function RecommendPage() {
               const theme = getProfileTheme(currentQuery)
               return (
                 <div
-                  className="rounded-2xl shadow-sm"
+                  className="rounded-2xl shadow-xs"
                   style={{
                     backgroundColor: theme.bg,
                     borderTop: `3px solid ${theme.accent}`,
@@ -786,6 +788,9 @@ export default function RecommendPage() {
 
                   {/* 外部リンクボタン */}
                   <SongLinkButtons youtubeId={song.youtube_id} officialUrl={song.official_url} />
+
+                  {/* 曲紹介 */}
+                  <SongIntro intro={song.intro} />
                 </div>
                 )
               })
@@ -805,7 +810,7 @@ export default function RecommendPage() {
                       href={tweetUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-volt-surface text-white border border-volt-cyan/50 rounded-xl font-bold hover:bg-volt-edge transition-colors text-sm"
+                      className="flex-1 flex items-center justify-center gap-2 btn-primary bg-volt-surface text-white border border-volt-cyan/50 hover:bg-volt-edge transition-colors"
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.258 5.632L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" />
@@ -823,7 +828,7 @@ export default function RecommendPage() {
                           prompt("以下のURLをコピーしてください", shareUrl)
                         }
                       }}
-                      className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold transition-colors text-sm ${
+                      className={`flex-1 flex items-center justify-center gap-2 btn-primary transition-colors ${
                         copiedShare
                           ? "bg-volt-cyan/20 text-volt-cyan border border-volt-cyan/30"
                           : "bg-volt-surface text-white/80 border border-volt-cyan/50 hover:bg-volt-edge"
@@ -836,26 +841,13 @@ export default function RecommendPage() {
               )
             })()}
 
-            <button
-              onClick={reset}
-              className="w-full px-6 py-3 rounded-xl font-bold text-black text-center transition-opacity hover:opacity-90"
-              style={{ background: "linear-gradient(135deg, #fee023 0%, #43d9bf 100%)" }}
-            >
-              もう一度診断する
-            </button>
+            <GradientButton onClick={reset}>もう一度診断する</GradientButton>
 
-            <div className="p-px rounded-xl w-full" style={{ background: "linear-gradient(135deg, #fee023, #43d9bf)" }}>
-              <Link
-                href="/songs"
-                className="flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl bg-volt-surface hover:bg-[#1a1a1a] text-sm font-medium text-white transition-colors"
-              >
-                全曲一覧から探す →
-              </Link>
-            </div>
+            <GradientBorderLink href="/songs">全曲一覧から探す →</GradientBorderLink>
 
             <Link
               href="/quiz"
-              className="w-full block text-center px-6 py-3 border border-volt-edge text-volt-muted rounded-xl hover:border-white/30 transition-colors text-sm"
+              className="w-full block text-center btn-primary border border-volt-edge text-volt-muted hover:border-white/30 transition-colors"
             >
               タイプ診断もやってみる →
             </Link>
@@ -865,7 +857,7 @@ export default function RecommendPage() {
                 href={OFFICIAL_PLAYLIST_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full text-center px-6 py-3 border border-volt-cyan/30 text-volt-cyan text-sm rounded-xl hover:border-volt-cyan/60 transition-colors"
+                className="block w-full text-center btn-primary border border-volt-cyan/30 text-volt-cyan hover:border-volt-cyan/60 transition-colors"
               >
                 ▸ 全曲を公式プレイリストで見る ↗
               </a>
@@ -873,7 +865,7 @@ export default function RecommendPage() {
 
             <Link
               href="/"
-              className="w-full block text-center px-6 py-3 bg-volt-surface text-white/80 border border-volt-edge rounded-xl font-bold hover:bg-volt-edge transition-colors"
+              className="w-full block text-center btn-primary bg-volt-surface text-white/80 border border-volt-edge hover:bg-volt-edge transition-colors"
             >
               ← トップへ戻る
             </Link>

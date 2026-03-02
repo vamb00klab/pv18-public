@@ -127,13 +127,13 @@ describe('scoreSong', () => {
 
   it('vocaloid_pref 不一致では加点なし', () => {
     const song = makeSong({ feels: ['懐かしい'], vocaloids: ['miku'] })
-    const query: RecommendQuery = { feels: ['懐かしい'], vocaloid_pref: ['luka'] }
+    const query: RecommendQuery = { feels: ['懐かしい'], vocaloid_pref: ['other'] }
     expect(scoreSong(song, query)).toBe(3)
   })
 
   it('vocaloid_pref 複数選択でいずれかが一致すれば +2（ダブルカウントなし）', () => {
     const song = makeSong({ feels: ['懐かしい'], vocaloids: ['miku', 'luka'] })
-    const query: RecommendQuery = { feels: ['懐かしい'], vocaloid_pref: ['miku', 'luka'] }
+    const query: RecommendQuery = { feels: ['懐かしい'], vocaloid_pref: ['miku', 'other'] }
     // 両方マッチするが +2 のみ（ダブルカウントなし）
     expect(scoreSong(song, query)).toBe(3 + 2)
   })

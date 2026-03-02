@@ -30,4 +30,6 @@ export interface PersonaType {
   strengths?: string[];
   /** Key weaknesses or blind spots of this type (2 items). Defined in content pack. */
   weaknesses?: string[];
+  /** Optional link to an official external page for this type. Defined in content pack. */
+  officialUrl?: string;
 }

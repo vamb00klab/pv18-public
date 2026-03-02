@@ -53,6 +53,7 @@ export default async function Image() {
         >
           {/* Logo small: 240 × (240/2000*416) ≈ 240×50 */}
           <img
+            alt=""
             src={logoDataUrl}
             width={240}
             height={50}

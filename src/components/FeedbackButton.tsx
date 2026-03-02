@@ -46,9 +46,13 @@ export default function FeedbackButton() {
   const [content, setContent]       = useState('')
   const [status, setStatus]         = useState<Status>('idle')
   const revertTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    return () => { if (revertTimerRef.current) clearTimeout(revertTimerRef.current) }
+    return () => {
+      if (revertTimerRef.current) clearTimeout(revertTimerRef.current)
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current)
+    }
   }, [])
 
   if (!ENDPOINT && !IS_DEV) return null
@@ -91,7 +95,7 @@ export default function FeedbackButton() {
 
   function handleClose() {
     setIsOpen(false)
-    setTimeout(() => { setStatus('idle'); setContent(''); setCategory('bug') }, 300)
+    closeTimerRef.current = setTimeout(() => { setStatus('idle'); setContent(''); setCategory('bug') }, 300)
   }
 
   function handleCloseRequest() {
@@ -210,7 +214,7 @@ export default function FeedbackButton() {
                     maxLength={5000}
                     rows={4}
                     placeholder="詳しく教えてください（10文字以上）..."
-                    className="w-full resize-none rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/25 outline-none transition-colors"
+                    className="w-full resize-none rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/25 outline-hidden transition-colors"
                     style={{
                       backgroundColor: '#ffffff08',
                       border: '1px solid #2a2a2a',

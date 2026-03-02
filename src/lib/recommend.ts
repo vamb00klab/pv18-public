@@ -62,11 +62,12 @@ export function scoreSong(song: Song, query: RecommendQuery): number {
 
   // 4. vocaloid_pref（選択キャラのいずれかが曲に参加しているか）
   if (query.vocaloid_pref && query.vocaloid_pref.length > 0) {
-    const matched = query.vocaloid_pref.some(pref =>
-      pref === 'rin_len'
-        ? song.vocaloids.includes('rin') || song.vocaloids.includes('len')
-        : song.vocaloids.includes(pref)
-    )
+    const OTHER_CHARS = ['luka', 'kaito', 'meiko', 'teto'] as const
+    const matched = query.vocaloid_pref.some(pref => {
+      if (pref === 'rin_len') return song.vocaloids.includes('rin') || song.vocaloids.includes('len')
+      if (pref === 'other') return OTHER_CHARS.some(c => song.vocaloids.includes(c))
+      return song.vocaloids.includes(pref)
+    })
     if (matched) score += 2
   }
 
@@ -128,13 +129,14 @@ export function buildReasonTags(song: Song, query: RecommendQuery): string[] {
     const vocaloidLabel: Record<string, string> = {
       miku:    'ミク参加',
       rin_len: 'リン/レン参加',
-      luka:    'ルカ参加',
+      other:   '他キャラ参加',
     }
-    const matchedPref = query.vocaloid_pref.find(pref =>
-      pref === 'rin_len'
-        ? song.vocaloids.includes('rin') || song.vocaloids.includes('len')
-        : song.vocaloids.includes(pref)
-    )
+    const OTHER_CHARS = ['luka', 'kaito', 'meiko', 'teto'] as const
+    const matchedPref = query.vocaloid_pref.find(pref => {
+      if (pref === 'rin_len') return song.vocaloids.includes('rin') || song.vocaloids.includes('len')
+      if (pref === 'other') return OTHER_CHARS.some(c => song.vocaloids.includes(c))
+      return song.vocaloids.includes(pref)
+    })
     if (matchedPref) tags.push(vocaloidLabel[matchedPref])
   }
 

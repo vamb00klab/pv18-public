@@ -13,9 +13,10 @@ import { appConfig } from "@/lib/config";
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: { a?: string };
+  searchParams: Promise<{ a?: string }>;
 }): Promise<Metadata> {
-  const decoded = decodeAnswers(searchParams.a);
+  const resolvedParams = await searchParams;
+  const decoded = decodeAnswers(resolvedParams.a);
   if (decoded.ok) {
     const { questions, types } = getContentPack();
     try {

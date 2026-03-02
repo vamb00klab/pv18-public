@@ -108,7 +108,7 @@ export function ResultClient({ questions, types, axes, typeScores }: Props) {
           <div className="flex flex-col gap-3">
             <Link
               href="/quiz"
-              className="inline-block px-6 py-3 rounded-xl font-bold text-black transition-opacity hover:opacity-90"
+              className="inline-block btn-primary text-black transition-opacity hover:opacity-90"
               style={{ background: "linear-gradient(135deg, #fee023 0%, #43d9bf 100%)" }}
             >
               診断を始める
@@ -116,7 +116,7 @@ export function ResultClient({ questions, types, axes, typeScores }: Props) {
             {!isMissing && (
               <Link
                 href="/"
-                className="inline-block px-6 py-3 bg-volt-surface text-white/80 border border-volt-edge rounded-xl font-bold hover:bg-volt-edge transition-colors"
+                className="inline-block btn-primary bg-volt-surface text-white/80 border border-volt-edge hover:bg-volt-edge transition-colors"
               >
                 トップへ戻る
               </Link>
@@ -227,6 +227,25 @@ export function ResultClient({ questions, types, axes, typeScores }: Props) {
           axisProfile={axisProfile}
         />
 
+        {/* Official page link */}
+        {diagnosis.result.officialUrl && (
+          <div className="text-center">
+            <a
+              href={diagnosis.result.officialUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm text-volt-muted hover:text-white transition-colors"
+            >
+              公式「ポケミク」イラストページで見る
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+            </a>
+          </div>
+        )}
+
         {/* Share section */}
         <div className="bg-volt-surface rounded-2xl p-6 border border-volt-edge text-center space-y-4">
           <h3 className="text-sm font-bold text-white/70 uppercase tracking-widest">
@@ -242,14 +261,14 @@ export function ResultClient({ questions, types, axes, typeScores }: Props) {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             href="/quiz"
-            className="px-6 py-3 rounded-xl font-bold text-black text-center transition-opacity hover:opacity-90"
+            className="btn-primary text-black text-center transition-opacity hover:opacity-90"
             style={{ background: "linear-gradient(135deg, #fee023 0%, #43d9bf 100%)" }}
           >
             もう一度診断する
           </Link>
           <Link
             href="/"
-            className="px-6 py-3 bg-volt-surface text-white/80 border border-volt-edge rounded-xl font-bold hover:bg-volt-edge text-center transition-colors"
+            className="btn-primary bg-volt-surface text-white/80 border border-volt-edge hover:bg-volt-edge text-center transition-colors"
           >
             トップへ戻る
           </Link>
@@ -258,7 +277,7 @@ export function ResultClient({ questions, types, axes, typeScores }: Props) {
         {/* Cross-feature: recommend */}
         <Link
           href="/recommend"
-          className="block text-center px-6 py-3 border border-volt-edge text-volt-muted rounded-xl hover:border-white/30 transition-colors text-sm"
+          className="block text-center btn-primary border border-volt-edge text-volt-muted hover:border-white/30 transition-colors"
         >
           気分で楽曲を探してみる →
         </Link>

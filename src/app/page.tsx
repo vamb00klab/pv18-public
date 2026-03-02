@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { appConfig } from "@/lib/config";
+import { GradientBorderLink } from "@/components/GradientButton";
 
 /**
  * Landing page ("/")
@@ -8,7 +9,7 @@ import { appConfig } from "@/lib/config";
 export default function LandingPage() {
   return (
     <main
-      className="relative min-h-screen overflow-hidden flex flex-col items-center justify-center px-4 py-16"
+      className="relative min-h-screen overflow-hidden flex flex-col items-center justify-start px-4 pt-8 pb-12 sm:pt-10 sm:pb-16"
       style={{ background: "linear-gradient(135deg, #0e0c00 0%, #00110e 100%)" }}
     >
 
@@ -94,10 +95,10 @@ export default function LandingPage() {
       </svg>
 
       {/* コンテンツ */}
-      <div className="relative z-10 max-w-lg w-full text-center space-y-8 page-enter">
+      <div className="relative z-10 max-w-lg w-full text-center space-y-5 sm:space-y-8 page-enter">
 
         {/* Brand header */}
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <div className="flex justify-center">
             <Image
               src="/logos/pv18_logo_web_w800.png"
@@ -107,7 +108,7 @@ export default function LandingPage() {
               priority
             />
           </div>
-          <p className="text-lg text-volt-muted">{appConfig.tagline}</p>
+          <p className="text-base sm:text-lg text-volt-muted">{appConfig.tagline}</p>
           {/* スパークバー */}
           <div
             className="volt-spark-bar mx-auto"
@@ -139,10 +140,10 @@ export default function LandingPage() {
         </details>
 
         {/* Feature cards — 対等な 2 本柱 */}
-        <div className="grid grid-cols-2 gap-4 text-left">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 text-left">
 
           {/* タイプ診断 */}
-          <div className="bg-volt-surface rounded-2xl p-5 border border-volt-yellow/30 flex flex-col gap-4">
+          <div className="bg-volt-surface rounded-2xl p-4 sm:p-5 border border-volt-yellow/30 flex flex-col gap-3 sm:gap-4">
             <div className="space-y-1">
               <p className="text-sm font-bold text-volt-yellow tracking-wider">タイプ診断</p>
               <p className="text-white font-semibold text-sm leading-snug">
@@ -161,14 +162,14 @@ export default function LandingPage() {
             </ul>
             <Link
               href="/quiz"
-              className="block text-center px-3 py-3 bg-volt-yellow hover:bg-volt-yellow/90 text-black font-bold text-sm rounded-xl transition-colors"
+              className="block text-center btn-primary bg-volt-yellow hover:bg-volt-yellow/90 text-black transition-colors"
             >
               診断する →
             </Link>
           </div>
 
           {/* 楽曲レコメンド */}
-          <div className="bg-volt-surface rounded-2xl p-5 border border-volt-cyan/30 flex flex-col gap-4">
+          <div className="bg-volt-surface rounded-2xl p-4 sm:p-5 border border-volt-cyan/30 flex flex-col gap-3 sm:gap-4">
             <div className="space-y-1">
               <p className="text-sm font-bold text-volt-cyan tracking-wider">楽曲レコメンド</p>
               <p className="text-white font-semibold text-sm leading-snug">
@@ -187,7 +188,7 @@ export default function LandingPage() {
             </ul>
             <Link
               href="/recommend"
-              className="block text-center px-3 py-3 bg-volt-cyan hover:bg-volt-cyan/90 text-black font-bold text-sm rounded-xl transition-colors"
+              className="block text-center btn-primary bg-volt-cyan hover:bg-volt-cyan/90 text-black transition-colors"
             >
               曲を探す →
             </Link>
@@ -196,14 +197,7 @@ export default function LandingPage() {
         </div>
 
         {/* 楽曲一覧（グラデーション枠ボタン） */}
-        <div className="p-px rounded-xl w-full" style={{ background: 'linear-gradient(135deg, #fee023, #43d9bf)' }}>
-          <Link
-            href="/songs"
-            className="flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl bg-volt-surface hover:bg-[#1a1a1a] text-sm font-medium text-white transition-colors"
-          >
-            全曲一覧から探す →
-          </Link>
-        </div>
+        <GradientBorderLink href="/songs">全曲一覧から探す →</GradientBorderLink>
 
         <p className="text-xs text-volt-muted">
           ※ 本Webサイトは個人開発の非公式コンテンツです。

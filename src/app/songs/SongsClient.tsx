@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { SONGS } from '@/data/songs'
 import { SongLinkButtons } from '@/components/SongLinkButtons'
+import { SongIntro } from '@/components/SongIntro'
 import { VOCALOID_LABEL, buildFeatStr } from '@/lib/vocaloidLabels'
 import { isNewSong } from '@/lib/songUtils'
 import type { Song, Feel, EvalGrade, PkmnGen } from '@/types/song'
@@ -307,6 +308,9 @@ function SongCard({
             </button>
           )}
         </div>
+
+        {/* 曲紹介 */}
+        <SongIntro intro={song.intro} />
       </div>
     </div>
   )
@@ -318,10 +322,12 @@ function SongRow({
   song,
   isActive,
   onToggle,
+  onShowIntro,
 }: {
   song: Song
   isActive: boolean
   onToggle: () => void
+  onShowIntro: () => void
 }) {
   return (
     <div id={`song-${song.youtube_id}`} className={`song-card rounded-xl${isActive ? ' is-active' : ''}${isNewSong(song) ? ' is-new' : ''}`}>
@@ -387,6 +393,15 @@ function SongRow({
           <div className="mt-2">
             <SongLinkButtons youtubeId={song.youtube_id} officialUrl={song.official_url} />
           </div>
+          {song.intro && (
+            <button
+              onClick={onShowIntro}
+              className="inline-flex items-center gap-1 mt-1 text-xs px-2.5 py-1.5 rounded-lg border border-volt-yellow/30 text-volt-yellow/70 hover:border-volt-yellow/50 hover:text-volt-yellow transition-colors"
+            >
+              <span className="text-[10px]">▶</span>
+              曲紹介を見る
+            </button>
+          )}
         </div>
 
         {/* 閉じるボタン */}
@@ -420,12 +435,21 @@ export default function SongsClient() {
   const [filterMode,      setFilterMode]      = useState<'OR' | 'AND'>('OR')
   const [helpOpen,        setHelpOpen]        = useState<string | null>(null)
   const [showScrollTop,   setShowScrollTop]   = useState(false)
+  const [introSong,       setIntroSong]       = useState<Song | null>(null)
 
-  // パネル表示中はボディスクロールをロック
+  // パネル or モーダル表示中はボディスクロールをロック
   useEffect(() => {
-    document.body.style.overflow = panelOpen ? 'hidden' : ''
+    document.body.style.overflow = (panelOpen || introSong) ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
-  }, [panelOpen])
+  }, [panelOpen, introSong])
+
+  // イントロモーダル Escape キー対応
+  useEffect(() => {
+    if (!introSong) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setIntroSong(null) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [introSong])
 
   // スクロール量に応じて TOPへ戻るボタンを表示
   useEffect(() => {
@@ -580,7 +604,7 @@ export default function SongsClient() {
           <p className="text-sm text-volt-muted mt-4">
             Project VOLTAGE 全{SONGS.length}曲 — タグで絞り込めます
           </p>
-          <div className="h-px mt-4 bg-gradient-to-r from-volt-yellow via-volt-cyan to-transparent" />
+          <div className="h-px mt-4 bg-linear-to-r from-volt-yellow via-volt-cyan to-transparent" />
         </div>
 
         {/* スティッキーバー（常時1行） */}
@@ -645,7 +669,7 @@ export default function SongsClient() {
               <select
                 value={sortMode}
                 onChange={e => handleSortModeChange(e.target.value as SortMode)}
-                className="text-xs rounded px-2 py-0.5 outline-none"
+                className="text-xs rounded px-2 py-0.5 outline-hidden"
                 style={{
                   backgroundColor: '#ffffff08',
                   border: '1px solid #2a2a2a',
@@ -739,6 +763,7 @@ export default function SongsClient() {
                       prev === song.youtube_id ? null : song.youtube_id
                     )
                   }
+                  onShowIntro={() => setIntroSong(song)}
                 />
               ))}
             </div>
@@ -1100,6 +1125,35 @@ export default function SongsClient() {
         >
           ▶ 再生中の曲に戻る
         </button>
+      )}
+      {/* ━━━ 曲紹介モーダル（リスト表示用） ━━━ */}
+      {introSong && (
+        <div
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center"
+          onClick={() => setIntroSong(null)}
+        >
+          <div className="absolute inset-0 bg-black/60" />
+          <div
+            className="relative bg-volt-surface border border-volt-edge rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md max-h-[70vh] overflow-y-auto p-5 space-y-3"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between">
+              <p className="font-bold text-white text-sm">{introSong.title}</p>
+              <button
+                onClick={() => setIntroSong(null)}
+                className="text-volt-muted hover:text-white text-xs shrink-0 ml-2"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="text-xs text-volt-muted">{introSong.artist}</p>
+            <div className="space-y-2 pt-1">
+              {introSong.intro!.split('\n\n').filter(Boolean).map((p, i) => (
+                <p key={i} className="text-xs text-white/70 leading-relaxed">{p}</p>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
     </main>
   )

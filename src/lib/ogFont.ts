@@ -6,7 +6,7 @@
  * pkmn ブランチの scripts/generate-og.ts から移植。
  */
 export async function fetchNotoSansJP() {
-  const css = await fetch(
+  const cssRes = await fetch(
     "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&display=block",
     {
       headers: {
@@ -15,14 +15,22 @@ export async function fetchNotoSansJP() {
           "Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko",
       },
     }
-  ).then((r) => r.text())
+  )
+  if (!cssRes.ok) {
+    throw new Error(`Google Fonts CSS fetch failed: ${cssRes.status}`)
+  }
+  const css = await cssRes.text()
 
   const urls = Array.from(
     css.matchAll(/src: url\((.+?)\) format\('woff'\)/g)
   ).map((m) => m[1])
 
   const buffers = await Promise.all(
-    urls.map((url) => fetch(url).then((r) => r.arrayBuffer()))
+    urls.map(async (url) => {
+      const res = await fetch(url)
+      if (!res.ok) throw new Error(`Font fetch failed: ${res.status} ${url}`)
+      return res.arrayBuffer()
+    })
   )
 
   return buffers.map((data) => ({

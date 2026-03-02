@@ -129,7 +129,7 @@ export const pokemonQuestions: Question[] = [
       },
       {
         id: "q04d",
-        text: "新しいことへの挑戦や、未知の体験",
+        text: "新しいことに挑戦して、未知の世界を体験する",
         scoreMap: { electric: 3, dragon: 2, flying: 1 },
       },
     ],
@@ -235,7 +235,7 @@ export const pokemonQuestions: Question[] = [
       },
       {
         id: "q08b",
-        text: "バランス。どんな状況にも対応できる多様性",
+        text: "明るさと会話。自然と打ち解けられる雰囲気",
         scoreMap: { normal: 3, water: 2, flying: 1 },
       },
       {
@@ -288,7 +288,7 @@ export const pokemonQuestions: Question[] = [
     options: [
       {
         id: "q10a",
-        text: "参謀型。表に出ず、緻密な戦略と情報分析で相手の動きを先読みしたい",
+        text: "異端児。誰もが避けるポケモンの隠れた力を見出し、常識を覆したい",
         scoreMap: { poison: 3, ghost: 2, steel: 1 },
       },
       {
@@ -356,12 +356,12 @@ export const pokemonQuestions: Question[] = [
       },
       {
         id: "q12c",
-        text: "連携と成長。仲間それぞれの力を活かし、チームで前へ進むこと",
+        text: "連携と成長。仲間の力を活かして前へ進むこと",
         scoreMap: { bug: 3, normal: 2, fairy: 1 },
       },
       {
         id: "q12d",
-        text: "着実な積み重ね。地道に歩み続け、揺るぎない信頼と実績を積み上げること",
+        text: "着実な積み重ね。揺るぎない信頼と実績を積むこと",
         scoreMap: { ground: 3, rock: 2, normal: 1 },
       },
     ],

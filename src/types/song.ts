@@ -73,7 +73,7 @@ export type PkmnGen = 'gen1' | 'gen2' | 'gen3' | 'gen4' | 'gen5' | 'gen6' | 'gen
 export type PkmnGenGroup = 'gen1-2' | 'gen3-5' | 'gen6+'
 
 /** キャラクター絞り込み選択肢（"rin_len" は rin か len どちらかが参加していればマッチ） */
-export type VocaloidPref = 'miku' | 'rin_len' | 'luka'
+export type VocaloidPref = 'miku' | 'rin_len' | 'other'
 
 export type VocaloidChar =
   | 'miku'

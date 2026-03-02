@@ -104,7 +104,7 @@ export default function AboutPage() {
             ← トップへ戻る
           </Link>
           <h1 className="text-2xl font-bold text-white">このサイトについて</h1>
-          <div className="h-px bg-gradient-to-r from-volt-yellow via-volt-cyan to-transparent" />
+          <div className="h-px bg-linear-to-r from-volt-yellow via-volt-cyan to-transparent" />
         </div>
 
         {/* このサイトについて */}
@@ -209,6 +209,9 @@ export default function AboutPage() {
                 準備中です。しばらくお待ちください。
               </p>
             )}
+            <p className="text-xs text-volt-muted leading-relaxed pt-1">
+              ※ 余暇時間での趣味の個人開発につき、返答が遅くなる場合がございます。ご了承ください。
+            </p>
           </div>
         </section>
 

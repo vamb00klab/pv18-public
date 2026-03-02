@@ -33,10 +33,10 @@ export const pokemonTypeScores: TypeAxisProfile[] = [
   },
 
   // 3 — くさ
-  // 継続型・育成志向・裏方・長期志向、忍耐力、変化に弱い・保守的
+  // 応援型・チームワーク・明るさ・リズム感、鼓舞力・共感、自分のことは後回し
   {
     type_id: "grass",
-    scores: { action: -1, empathy: +1, logic:  0, creativity: -1, endurance: +2, autonomy: -1, depth: +1 },
+    scores: { action: +1, empathy: +2, logic: -1, creativity: +1, endurance: +1, autonomy: -1, depth: -1 },
   },
 
   // 4 — でんき
@@ -89,10 +89,10 @@ export const pokemonTypeScores: TypeAxisProfile[] = [
   },
 
   // 11 — むし
-  // 専門志向・集中型・改善型・こだわり、専門性・深掘力、視野狭窄
+  // 繊細な感性・専門志向・集中型・こだわり、深掘力、視野狭窄
   {
     type_id: "bug",
-    scores: { action: -1, empathy:  0, logic: +1, creativity:  0, endurance: +2, autonomy:  0, depth: +2 },
+    scores: { action: -1, empathy: +1, logic: +1, creativity:  0, endurance: +2, autonomy:  0, depth: +2 },
   },
 
   // 12 — いわ
@@ -117,17 +117,17 @@ export const pokemonTypeScores: TypeAxisProfile[] = [
   },
 
   // 15 — あく
-  // 合理派・割り切り型・現実志向、判断力・交渉力、冷酷視・摩擦
+  // 洗練・カリスマ・統率力・現実志向、交渉力、冷酷視・摩擦
   {
     type_id: "dark",
-    scores: { action:  0, empathy: -2, logic: +2, creativity:  0, endurance:  0, autonomy: +2, depth: +1 },
+    scores: { action: +1, empathy: -2, logic: +2, creativity:  0, endurance:  0, autonomy: +2, depth: +1 },
   },
 
   // 16 — はがね
-  // 規律派・正確型・管理型・品質重視、品質・統制力、融通不足・硬直
+  // 求道者・探求心・品質重視・長い旅、品質・精密、融通不足・硬直
   {
     type_id: "steel",
-    scores: { action: -1, empathy: -1, logic: +2, creativity: -2, endurance: +1, autonomy:  0, depth: +2 },
+    scores: { action: -1, empathy: -1, logic: +2, creativity: -2, endurance: +2, autonomy:  0, depth: +2 },
   },
 
   // 17 — フェアリー
@@ -138,9 +138,9 @@ export const pokemonTypeScores: TypeAxisProfile[] = [
   },
 
   // 18 — ノーマル
-  // バランス型・常識派・適応型・安定志向、汎用性・安定感、個性薄・優柔不断
+  // 社交的・コミュ力・明るさ・親しみ、場を明るくする力、八方美人・専門性不足
   {
     type_id: "normal",
-    scores: { action:  0, empathy:  0, logic:  0, creativity: -1, endurance: +1, autonomy: -1, depth: -1 },
+    scores: { action: +1, empathy: +2, logic: -1, creativity:  0, endurance: -1, autonomy: -1, depth: -2 },
   },
 ];

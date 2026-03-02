@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import type { PersonaType } from "@/types/persona";
 import type { Axis, TypeAxisScores } from "@/types/axis";
@@ -40,6 +40,42 @@ interface Props {
 export function ResultCard({ result, scores, allTypes, axes, axisProfile }: Props) {
   type RankedType = PersonaType & { score: number };
   const [popupType, setPopupType] = useState<RankedType | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+
+  const closePopup = useCallback(() => {
+    setPopupType(null);
+    triggerRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (!popupType) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closePopup();
+        return;
+      }
+      if (e.key === "Tab" && dialogRef.current) {
+        const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    const closeBtn = dialogRef.current?.querySelector<HTMLElement>("button");
+    closeBtn?.focus();
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [popupType, closePopup]);
 
   const allRanked = [...allTypes]
     .map((t) => ({ ...t, score: scores[t.type_id] ?? 0 }))
@@ -55,7 +91,7 @@ export function ResultCard({ result, scores, allTypes, axes, axisProfile }: Prop
     <div className="space-y-6">
       {/* ── Main result card ── */}
       <div
-        className="rounded-2xl p-8 text-center shadow-sm"
+        className="rounded-2xl p-8 text-center shadow-xs"
         style={{ backgroundColor: result.bgColor, borderTop: `3px solid ${result.color}` }}
       >
         {result.iconPath && (
@@ -216,8 +252,9 @@ export function ResultCard({ result, scores, allTypes, axes, axisProfile }: Prop
               <button
                 key={type.type_id}
                 type="button"
-                onClick={() => setPopupType(type)}
-                className="rounded-xl p-4 text-center shadow-sm text-left active:scale-95 transition-transform"
+                ref={(el) => { if (popupType?.type_id === type.type_id) triggerRef.current = el; }}
+                onClick={(e) => { triggerRef.current = e.currentTarget; setPopupType(type); }}
+                className="rounded-xl p-4 text-center shadow-xs text-left active:scale-95 transition-transform"
                 style={{ backgroundColor: type.bgColor, borderTop: `3px solid ${type.color}` }}
               >
                 {type.iconPath && (
@@ -294,15 +331,20 @@ export function ResultCard({ result, scores, allTypes, axes, axisProfile }: Prop
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
           style={{ backgroundColor: "rgba(0,0,0,0.72)" }}
-          onClick={() => setPopupType(null)}
+          onClick={closePopup}
         >
           <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${popupType.label}の詳細`}
             className="w-full max-w-sm rounded-2xl p-6 shadow-xl relative"
             style={{ backgroundColor: popupType.bgColor, borderTop: `4px solid ${popupType.color}` }}
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               type="button"
-              onClick={() => setPopupType(null)}
+              onClick={closePopup}
               className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 text-base font-bold"
               style={{ backgroundColor: "rgba(0,0,0,0.08)" }}
               aria-label="閉じる"

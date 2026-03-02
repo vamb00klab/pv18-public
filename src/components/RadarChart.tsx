@@ -76,7 +76,8 @@ export function RadarChart({ axes, scores, color }: Props) {
     <svg
       viewBox="0 0 340 280"
       className="w-full max-w-sm mx-auto"
-      aria-hidden="true"
+      role="img"
+      aria-label="傾向レーダーチャート — 軸ラベルをタップで詳細表示"
       onClick={() => setSelectedAxis(null)}
     >
       {/* ── グリッドリング ── */}
@@ -189,6 +190,8 @@ export function RadarChart({ axes, scores, color }: Props) {
           height={OV_H}
           onClick={(e) => { e.stopPropagation(); setSelectedAxis(null); }}
           style={{ cursor: "pointer" }}
+          role="status"
+          aria-live="polite"
         >
           <div
             style={{
