@@ -7,6 +7,7 @@ import { ImageResponse } from "next/og"
 import { readFileSync } from "fs"
 import { join } from "path"
 import { fetchNotoSansJP } from "@/lib/ogFont"
+import { HASHTAGS } from "@/lib/shareConfig"
 
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
@@ -107,7 +108,7 @@ export default async function Image() {
 
         {/* Hashtag chips */}
         <div style={{ display: "flex", gap: 16, marginTop: 48 }}>
-          {(["#ポケミク", "#ポケミクライブ"] as const).map((tag) => (
+          {HASHTAGS.lp.map((tag) => (
             <div
               key={tag}
               style={{

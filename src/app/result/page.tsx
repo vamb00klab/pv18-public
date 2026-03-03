@@ -22,13 +22,13 @@ export async function generateMetadata({
     try {
       const { result } = diagnose(decoded.answers, questions, types);
       return {
-        title: `キミは「${result.label}」タイプ`,
+        title: `キミは「${result.label}」`,
         openGraph: {
-          title: `キミは「${result.label}」タイプ | ${appConfig.displayName}`,
+          title: `キミは「${result.label}」 | ${appConfig.displayName}`,
           description: result.description,
         },
         twitter: {
-          title: `キミは「${result.label}」タイプ | ${appConfig.displayName}`,
+          title: `キミは「${result.label}」 | ${appConfig.displayName}`,
           description: result.description,
         },
       };

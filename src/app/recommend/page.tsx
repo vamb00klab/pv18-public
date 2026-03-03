@@ -10,6 +10,7 @@ import { GradientButton, GradientBorderLink } from "@/components/GradientButton"
 import { SONGS } from "@/data/songs"
 import { recommend } from "@/lib/recommend"
 import { appConfig } from "@/lib/config"
+import { buildRecommendShareText } from "@/lib/shareConfig"
 import { buildFeatStr } from "@/lib/vocaloidLabels"
 import { isNewSong } from "@/lib/songUtils"
 import type { Feel, PokemonContext, PkmnGenGroup, VocaloidPref, RecommendQuery, Song } from "@/types/song"
@@ -800,7 +801,7 @@ export default function RecommendPage() {
             {results.length > 0 && activeVideoId !== null && (() => {
               const best = results[0].song
               const shareUrl = `${appConfig.baseUrl}/`
-              const shareText = `「${best.title} / ${best.artist}」がおすすめ！\n#ポケミク #ポケミクライブ`
+              const shareText = buildRecommendShareText(best.title, best.artist)
               const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`
               return (
                 <div className="space-y-2">

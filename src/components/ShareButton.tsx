@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { appConfig } from "@/lib/config";
+import { buildResultShareText } from "@/lib/shareConfig";
 
 interface Props {
   typeLabel: string;
@@ -14,7 +14,7 @@ interface Props {
 export function ShareButton({ typeLabel, resultUrl }: Props) {
   const [copied, setCopied] = useState(false);
 
-  const shareText = `私は「${typeLabel}」でした！ #${appConfig.displayName}`;
+  const shareText = buildResultShareText(typeLabel);
   const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(resultUrl)}`;
 
   const handleCopy = useCallback(async () => {
