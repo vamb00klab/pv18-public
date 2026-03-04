@@ -6,10 +6,11 @@ const ENDPOINT = process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT ?? ''
 const IS_DEV = process.env.NODE_ENV === 'development'
 
 const CATEGORIES = [
-  { value: 'bug',     label: 'バグ報告' },
-  { value: 'request', label: '機能リクエスト' },
-  { value: 'data',    label: 'データ・表記の誤り' },
-  { value: 'other',   label: 'その他' },
+  { value: 'bug',            label: 'バグ報告' },
+  { value: 'request',        label: '機能リクエスト' },
+  { value: 'data',           label: 'データ・表記の誤り' },
+  { value: 'interpretation', label: 'キャラ・曲の解釈に違和感' },
+  { value: 'other',          label: 'その他' },
 ] as const
 
 type Category = typeof CATEGORIES[number]['value']
@@ -179,7 +180,7 @@ export default function FeedbackButton() {
               <form onSubmit={handleSubmit} className="px-5 py-4 space-y-4">
                 {/* カテゴリ */}
                 <div className="space-y-2">
-                  <p className="text-xs font-bold text-white/60 uppercase tracking-wider">カテゴリ</p>
+                  <p className="text-xs font-bold text-white/60 uppercase tracking-wider">カテゴリ <span className="font-normal normal-case tracking-normal text-white/30">大まかで大丈夫。困ったらその他で</span></p>
                   <div className="grid grid-cols-2 gap-1.5">
                     {CATEGORIES.map(({ value, label }) => (
                       <label

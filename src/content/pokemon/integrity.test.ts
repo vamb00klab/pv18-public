@@ -7,6 +7,7 @@ import { describe, it, expect } from "vitest";
 import { pokemonTypes } from "./types";
 import { pokemonQuestions } from "./questions";
 import { appConfig } from "@/lib/config";
+import { SONGS } from "@/data/songs";
 
 const EXPECTED_TYPE_COUNT = 18;
 const EXPECTED_QUESTION_COUNT = 15;
@@ -127,5 +128,41 @@ describe("pokemon content pack — scoreMap integrity", () => {
         `Type "${t.type_id}" is never awarded points by any question option`
       ).toBe(true);
     }
+  });
+});
+
+describe("songs — karaoke data integrity", () => {
+  const songsWithKaraoke = SONGS.filter((s) => s.karaoke);
+  const songsWithKaraokeUrls = songsWithKaraoke.filter(
+    (s) => s.karaoke!.joysound || s.karaoke!.dam
+  );
+
+  it("karaoke field with URLs has at least one URL", () => {
+    for (const s of songsWithKaraokeUrls) {
+      const { joysound, dam } = s.karaoke!;
+      expect(
+        joysound || dam,
+        `Song "${s.id}" has karaoke but no URLs`
+      ).toBeTruthy();
+    }
+  });
+
+  it("karaoke URLs start with https://", () => {
+    for (const s of songsWithKaraokeUrls) {
+      const { joysound, dam } = s.karaoke!;
+      if (joysound) {
+        expect(joysound, `JOYSOUND URL invalid for ${s.id}`).toMatch(/^https:\/\//);
+      }
+      if (dam) {
+        expect(dam, `DAM URL invalid for ${s.id}`).toMatch(/^https:\/\//);
+      }
+    }
+  });
+
+  it("no duplicate karaoke URLs across songs", () => {
+    const joyUrls = songsWithKaraokeUrls.map((s) => s.karaoke!.joysound).filter(Boolean);
+    const damUrls = songsWithKaraokeUrls.map((s) => s.karaoke!.dam).filter(Boolean);
+    expect(new Set(joyUrls).size, "duplicate JOYSOUND URLs").toBe(joyUrls.length);
+    expect(new Set(damUrls).size, "duplicate DAM URLs").toBe(damUrls.length);
   });
 });

@@ -303,7 +303,7 @@ export function QuizFlow({ questions }: Props) {
                   onClick={() => handleOptionClick(option.id)}
                   onKeyDown={(e) => handleOptionKeyDown(e, i)}
                   tabIndex={isChecked || (selected === null && i === 0) ? 0 : -1}
-                  className="w-full text-left btn-option sm:px-5 sm:py-4 sm:text-base transition-all duration-150 leading-snug"
+                  className="w-full text-left btn-option transition-all duration-150 leading-snug"
                   style={{
                     borderStyle: "solid",
                     borderLeftWidth: "4px",

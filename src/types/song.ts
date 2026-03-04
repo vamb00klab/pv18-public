@@ -126,6 +126,11 @@ export type Song = {
   function_tags?: FunctionTag[]
   /** 曲紹介文 Phase 2 */
   intro?: string
+  /** カラオケ配信リンク（個別曲ページURL。undefined = 未配信） */
+  karaoke?: {
+    joysound?: string
+    dam?: string
+  }
 
   // ---- 知名度メタ（ソート用・ユーザーには非表示）----
   /** 概算再生数（桁数程度で OK。タイブレーカー用） */

@@ -48,6 +48,6 @@ describe('RecommendPage', () => {
     render(<RecommendPage />)
     // Q1 の次へボタンは feels 未選択（0件）のとき disabled
     const nextBtn = screen.getByRole('button', { name: /次へ/ })
-    expect(nextBtn.getAttribute('disabled')).toBeDefined()
+    expect(nextBtn.hasAttribute('disabled')).toBe(true)
   })
 })

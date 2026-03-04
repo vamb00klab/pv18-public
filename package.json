@@ -17,7 +17,8 @@
     "deploy:fast": "npm run type-check && npm test && npm run lint && npm run build && bash scripts/deploy-fast.sh",
     "deploy:hook": "scp scripts/hooks/post-receive bambookpi@bamb00kpi.local:/home/bambookpi/repos/pv18.git/hooks/post-receive && ssh bambookpi@bamb00kpi.local 'chmod +x /home/bambookpi/repos/pv18.git/hooks/post-receive && echo Hook deployed OK'",
     "test:e2e": "playwright test",
-    "test:e2e:update": "playwright test --update-snapshots"
+    "test:e2e:update": "playwright test --update-snapshots",
+    "prepare": "husky"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.1",
@@ -35,6 +36,7 @@
     "@vitest/coverage-v8": "^4.0.18",
     "eslint": "^9.39.3",
     "eslint-config-next": "^16.1.6",
+    "husky": "^9.1.7",
     "jsdom": "^28.1.0",
     "postcss": "^8",
     "prettier": "^3",

@@ -282,9 +282,6 @@ export function ResultClient({ questions, types, axes, typeScores }: Props) {
           気分で楽曲を探してみる →
         </Link>
 
-        <p className="text-center text-xs text-volt-muted pb-4">
-          {appConfig.displayName} — 個人開発 / 非公式コンテンツ
-        </p>
       </div>
     </div>
   );

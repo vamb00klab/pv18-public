@@ -21,6 +21,17 @@
 .btn-compact {
   @apply px-2.5 py-1.5 text-xs rounded-lg;
 }
+@media (min-width: 640px) {
+  .btn-primary {
+    @apply px-8 py-3.5 text-base;
+  }
+  .btn-option {
+    @apply px-5 py-4 text-base;
+  }
+  .btn-compact {
+    @apply px-3 py-2;
+  }
+}
 
 /* ── Base ─────────────────────────────────────────────────────────────────── */
 
@@ -295,6 +306,7 @@ html {
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
+
 /* ── Dev: high-energy effect previews ───────────────────────────────────────
    /dev/high-effects ページ専用。本番ページでは参照されない。
    A. dev-spin          — conic-gradient ビーム回転
@@ -360,6 +372,116 @@ html {
   animation: playing-glow 1.8s ease-in-out infinite;
 }
 
+/* ── Countdown: rotating glow border ──────────────────────────────────────
+   Single layer (cg-outer) rotating via JS requestAnimationFrame.
+   --cg-angle is set per-frame for perfect sync with the flip timer.
+*/
+.countdown-glow-wrap {
+  position: relative;
+}
+
+.cg-outer {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  inset: 2px;
+  border-radius: 14px;
+  filter: blur(0.5px) brightness(0.8);
+}
+
+.cg-outer::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 800px; height: 800px;
+  background-image: conic-gradient(
+    transparent 0%,
+    rgba(254, 224, 35, 0.85) 22%, transparent 24%,
+    transparent 50%,
+    rgba(67, 217, 191, 0.85) 72%, transparent 74%
+  );
+  transform: translate(-50%, -50%) rotate(var(--cg-angle, 0deg));
+}
+
+/* ── Countdown: flip card ─────────────────────────────────────────────────
+   Split-flap style card for countdown digits.
+   Usage:
+     <div className="flip-card">
+       <div className="flip-card-inner">
+         <span key={value} className="countdown-flip">07</span>
+       </div>
+     </div>
+*/
+.flip-card {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    #1c1c20 0%,
+    #18181c 49.3%,
+    #0a0a0e 49.3%,
+    #0a0a0e 50.7%,
+    #151518 50.7%,
+    #121215 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  text-align: center;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  overflow: hidden;
+}
+
+/* Fixed-size inner container — prevents layout shift during flip animation */
+.flip-card-inner {
+  width: 2.8rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.875rem; /* text-3xl */
+  margin: 6px 4px;
+}
+
+@media (min-width: 640px) {
+  .flip-card {
+    border-radius: 12px;
+  }
+  .flip-card-inner {
+    width: 4rem;
+    height: 3.5rem;
+    font-size: 3rem; /* text-5xl */
+    margin: 8px 8px;
+  }
+}
+
+/* Center split line */
+.flip-card::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Digit flip: card-style perspective rotation */
+@keyframes countdown-flip-in {
+  0%   { transform: perspective(300px) rotateX(-80deg); opacity: 0; }
+  40%  { opacity: 1; }
+  100% { transform: perspective(300px) rotateX(0deg); opacity: 1; }
+}
+
+.countdown-flip {
+  display: block;
+  animation: countdown-flip-in 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+  transform-origin: bottom center;
+}
+
 /* ── details-arrow ─────────────────────────────────────────────────────────
    Rotate arrow icon when <details> is open.
    Usage: <span className="details-arrow">▶</span>
@@ -371,4 +493,38 @@ html {
 
 details[open] .details-arrow {
   transform: rotate(90deg);
+}
+
+/* ── LIVE banner ripple ──────────────────────────────────────────────────
+   Expanding echo rings around the LIVE banner on LP.
+   Two pseudo-elements with staggered delays create a continuous pulse.
+ */
+.live-banner {
+  position: relative;
+}
+
+.live-banner::before,
+.live-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(67, 217, 191, 0.35);
+  pointer-events: none;
+  animation: banner-ripple 3s ease-out infinite;
+}
+
+.live-banner::after {
+  animation-delay: 1.5s;
+}
+
+@keyframes banner-ripple {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.04, 1.15);
+  }
 }

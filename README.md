@@ -16,10 +16,11 @@
 |------|------|
 | タイプ診断 | 15問の質問に回答 → 18タイプに分類 |
 | 楽曲レコメンド | 4問のアンケート → Project VOLTAGE 楽曲を推薦 |
-| 楽曲DB | 全曲一覧・タグ絞り込み・ソート・YouTube 視聴 |
+| 楽曲DB | 全曲一覧・タグ絞り込み・ソート・YouTube 視聴・楽曲紹介・カラオケ配信リンク |
 | 結果シェア | X(Twitter)シェア + URL コピー |
 | 結果再現 | 回答を URL (`?a=...`) にシリアライズ → リロードでも復元可能 |
 | コンテンツ差し替え | タイプ名・質問・ブランド名を env/データファイルのみで変更可 |
+| LIVE 特設 | カウントダウン・セトリ予想・持ち物チェック・会場ガイド |
 | フィードバック | 右下フロートモーダルでフィードバックを送信 |
 
 ---
@@ -43,7 +44,7 @@ npm run dev
 ```bash
 npm run type-check   # TypeScript 型チェック
 npm run lint         # ESLint
-npm test             # ユニットテスト（vitest）
+npm test             # ユニットテスト（Vitest）
 npm run build        # 本番ビルド
 ```
 
@@ -53,9 +54,9 @@ npm run build        # 本番ビルド
 
 | 技術 | 採用理由 |
 |------|---------|
-| **Next.js 14 (App Router)** | SSR/SSG と CSR 混在が容易 |
+| **Next.js 16 (App Router)** | SSR/SSG + CSR 混在が容易、Turbopack デフォルト |
 | **TypeScript** | コンテンツ差し替え時の型ミス防止 |
-| **Tailwind CSS** | 高速 UI 開発、ブランドカラーのカスタマイズが容易 |
+| **Tailwind CSS 4** | 高速 UI 開発。CSS `@theme` でデザイントークン定義 |
 | **Vitest** | Next.js との相性が良く `@/` パスエイリアスも使える |
 
 ---
@@ -66,26 +67,49 @@ npm run build        # 本番ビルド
 src/
 ├── app/
 │   ├── page.tsx               # LP (/)
+│   ├── globals.css            # ダークベース + volt アニメーション + ボタンサイズトークン
 │   ├── quiz/page.tsx          # 診断フロー (/quiz)
-│   ├── result/page.tsx        # 診断結果 (/result)
-│   ├── recommend/page.tsx     # 楽曲レコメンド (/recommend)
+│   ├── result/
+│   │   ├── page.tsx           # 診断結果 (/result)
+│   │   └── ResultClient.tsx
+│   ├── recommend/
+│   │   ├── page.tsx           # 楽曲レコメンド (/recommend)
+│   │   └── opengraph-image.tsx
 │   ├── songs/
 │   │   ├── page.tsx           # 楽曲DB (/songs)
-│   │   └── SongsClient.tsx    # クライアント部（フィルタ・ソート・埋め込み）
+│   │   ├── SongsClient.tsx    # クライアント部（フィルタ・ソート・楽曲紹介・カラオケ）
+│   │   └── songsConstants.ts  # フィルタ・ソート定数定義
+│   ├── live/
+│   │   ├── page.tsx           # LIVE イベント特設ページ (/live)
+│   │   ├── LiveClient.tsx     # 6セクション Client Component
+│   │   └── liveData.ts        # EVENT_CONFIG・カウントダウン・ガイドライン
 │   ├── about/page.tsx         # このサイトについて (/about)
 │   └── dev/                   # 開発専用（本番 404）
+│       ├── page.tsx           # リリース確認ダッシュボード
+│       ├── DevHealthClient.tsx
+│       ├── DevOgpPreview.tsx  # OGP 画像・メタ・シェア文プレビュー
+│       ├── types/             # 全タイプ結果カード一覧
+│       ├── bg-effects/        # 背景エフェクト比較
+│       ├── high-effects/      # High エネルギーエフェクト比較
+│       └── hover-anim/        # ホバーアニメーション比較
 │
 ├── components/
 │   ├── PageHeader.tsx         # 全ページ共通ヘッダー（ロゴ + サブテキスト + スパークバー）
 │   ├── QuizFlow.tsx           # 診断フロー管理
 │   ├── ResultCard.tsx         # 結果カード + レーダーチャート
 │   ├── RadarChart.tsx         # SVG レーダーチャート（7軸）
+│   ├── GradientButton.tsx     # グラデーション CTA ボタン（3バリアント）
 │   ├── ShareButton.tsx        # X共有 / URLコピー
+│   ├── SongIntro.tsx          # 楽曲紹介（details/summary 開閉式）
+│   ├── SongKaraoke.tsx        # カラオケ配信リンク（JOYSOUND / DAM）
+│   ├── SongDetailsGroup.tsx   # 排他アコーディオン（曲紹介・カラオケ）
+│   ├── SongLinkButtons.tsx    # YouTube / ニコニコ / ポケミク リンクボタン
+│   ├── ParticleBackground.tsx # パーティクル背景（/songs, /live 共通）
 │   ├── SiteFooter.tsx         # グローバルフッター
 │   └── FeedbackButton.tsx     # 右下フロートフィードバックモーダル
 │
 ├── content/
-│   └── neutral/               # コンテンツパック（差し替えポイント）
+│   └── pokemon/               # コンテンツパック（ポケモンタイプ診断）
 │       ├── types.ts           # 18タイプ定義
 │       ├── questions.ts       # 15問の質問・選択肢・scoreMap
 │       ├── axes.ts            # 7軸定義
@@ -102,12 +126,17 @@ src/
 │   ├── recommend.ts           # レコメンドスコアリング
 │   ├── selectQuestions.ts     # カテゴリ別ランダム選出
 │   ├── answerSession.ts       # sessionStorage アダプター
-│   └── answerUrl.ts           # URL encode/decode
+│   ├── answerUrl.ts           # URL encode/decode
+│   ├── shareConfig.ts         # シェア文・ハッシュタグ設定（single source of truth）
+│   ├── songUtils.ts           # 楽曲フィルタ・ソートユーティリティ
+│   ├── vocaloidLabels.ts      # ボーカロイド表示ラベル
+│   └── ogFont.ts              # OGP 画像用フォントローダー
 │
 └── types/
     ├── persona.ts             # PersonaType インターフェース
     ├── quiz.ts                # Question / Answer / ScoreMap 型
-    └── axis.ts                # Axis / TypeAxisScores 型
+    ├── axis.ts                # Axis / TypeAxisScores 型
+    └── song.ts                # Song / SongTag 型
 ```
 
 ---
@@ -124,13 +153,13 @@ src/
 ```bash
 NEXT_PUBLIC_DISPLAY_NAME="NewBrandName"
 NEXT_PUBLIC_TAGLINE="新しいキャッチコピー"
-NEXT_PUBLIC_CONTENT_PACK="neutral"
+NEXT_PUBLIC_CONTENT_PACK="pokemon"
 ```
 
 ### 別コンテンツパックを作る
 
 ```bash
-cp -r src/content/neutral src/content/my-pack
+cp -r src/content/pokemon src/content/my-pack
 # my-pack/types.ts, questions.ts, axes.ts, typeScores.ts を編集
 ```
 

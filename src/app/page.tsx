@@ -95,7 +95,7 @@ export default function LandingPage() {
       </svg>
 
       {/* コンテンツ */}
-      <div className="relative z-10 max-w-lg w-full text-center space-y-5 sm:space-y-8 page-enter">
+      <div className="relative z-10 max-w-lg w-full text-center space-y-6 sm:space-y-8 page-enter">
 
         {/* Brand header */}
         <div className="space-y-3 sm:space-y-4">
@@ -109,6 +109,7 @@ export default function LandingPage() {
             />
           </div>
           <p className="text-base sm:text-lg text-volt-muted">{appConfig.tagline}</p>
+          <p className="text-xs text-volt-muted/70 tracking-wide">〜 ポケミクファンのための応援サイト 〜</p>
           {/* スパークバー */}
           <div
             className="volt-spark-bar mx-auto"
@@ -119,6 +120,16 @@ export default function LandingPage() {
             }}
           />
         </div>
+
+        {/* 非公式表記（上部に配置 — 公式誤認防止） */}
+        <p className="text-xs text-volt-muted text-center">
+          ※ 非公式ファンサイトです（<a
+            href="https://www.project-voltage.jp/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-volt-cyan hover:underline"
+          >公式サイト ↗</a>）
+        </p>
 
         {/* Project VOLTAGE 説明（初めて来たユーザー向け） */}
         <details className="w-full text-left">
@@ -139,13 +150,43 @@ export default function LandingPage() {
           </div>
         </details>
 
+        {/* LIVE バナー */}
+        <Link
+          href="/live"
+          className="live-banner block w-full rounded-2xl overflow-hidden transition-transform hover:scale-[1.01] active:scale-[0.99]"
+        >
+          <div
+            className="relative flex items-center justify-between gap-3 px-5 py-5"
+            style={{
+              backgroundImage: "url(/banners/live-bg.jpg)",
+              backgroundSize: "cover",
+              backgroundPosition: "right center",
+            }}
+          >
+            {/* 左テキスト読みやすさ用の暗幕グラデーション */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: "linear-gradient(to right, rgba(0,0,0,0.55) 30%, transparent 80%)" }}
+            />
+            <div className="relative z-10 space-y-1 min-w-0 text-left">
+              <p
+                className="text-sm font-black text-volt-yellow tracking-[0.3em] uppercase"
+                style={{ textShadow: "0 0 24px rgba(254,224,35,0.8), 0 0 8px rgba(254,224,35,0.5)" }}
+              >LIVE EVENT</p>
+              <p className="text-base font-bold text-white leading-snug">3/20〜22 ポケミク初 LIVE！</p>
+              <p className="text-xs text-white/60">セトリ予想・持ち物チェック →</p>
+            </div>
+            <span className="relative z-10 text-volt-cyan text-lg flex-shrink-0">→</span>
+          </div>
+        </Link>
+
         {/* Feature cards — 対等な 2 本柱 */}
         <div className="grid grid-cols-2 gap-3 sm:gap-4 text-left">
 
           {/* タイプ診断 */}
           <div className="bg-volt-surface rounded-2xl p-4 sm:p-5 border border-volt-yellow/30 flex flex-col gap-3 sm:gap-4">
             <div className="space-y-1">
-              <p className="text-sm font-bold text-volt-yellow tracking-wider">タイプ診断</p>
+              <p className="text-xs font-bold text-volt-yellow uppercase tracking-wider">タイプ診断</p>
               <p className="text-white font-semibold text-sm leading-snug">
                 キミの個性を<br />18タイプに分類
               </p>
@@ -171,9 +212,9 @@ export default function LandingPage() {
           {/* 楽曲レコメンド */}
           <div className="bg-volt-surface rounded-2xl p-4 sm:p-5 border border-volt-cyan/30 flex flex-col gap-3 sm:gap-4">
             <div className="space-y-1">
-              <p className="text-sm font-bold text-volt-cyan tracking-wider">楽曲レコメンド</p>
+              <p className="text-xs font-bold text-volt-cyan uppercase tracking-wider">楽曲レコメンド</p>
               <p className="text-white font-semibold text-sm leading-snug">
-                今の気分に合う<br />曲を発見
+                今の気分に合う<br />ポケミク曲を発見
               </p>
             </div>
             <ul className="text-xs text-volt-muted space-y-1.5 flex-1">
@@ -199,9 +240,6 @@ export default function LandingPage() {
         {/* 楽曲一覧（グラデーション枠ボタン） */}
         <GradientBorderLink href="/songs">全曲一覧から探す →</GradientBorderLink>
 
-        <p className="text-xs text-volt-muted">
-          ※ 本Webサイトは個人開発の非公式コンテンツです。
-        </p>
       </div>
     </main>
   );

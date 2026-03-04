@@ -254,7 +254,7 @@ exports[`QuizFlow > 初期レンダリング: 1問目・進捗バー・選択肢
       >
         <button
           aria-checked="false"
-          class="w-full text-left btn-option sm:px-5 sm:py-4 sm:text-base transition-all duration-150 leading-snug"
+          class="w-full text-left btn-option transition-all duration-150 leading-snug"
           role="radio"
           style="border-style: solid; border-left-width: 4px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-color: rgba(57, 197, 187, 0.5); border-top-color: rgba(57, 197, 187, 0.3); border-right-color: rgba(57, 197, 187, 0.3); border-bottom-color: rgba(57, 197, 187, 0.3); background-color: rgba(15, 23, 42, 0.04); color: rgb(15, 23, 42);"
           tabindex="0"
@@ -264,7 +264,7 @@ exports[`QuizFlow > 初期レンダリング: 1問目・進捗バー・選択肢
         </button>
         <button
           aria-checked="false"
-          class="w-full text-left btn-option sm:px-5 sm:py-4 sm:text-base transition-all duration-150 leading-snug"
+          class="w-full text-left btn-option transition-all duration-150 leading-snug"
           role="radio"
           style="border-style: solid; border-left-width: 4px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-color: rgba(57, 197, 187, 0.5); border-top-color: rgba(57, 197, 187, 0.3); border-right-color: rgba(57, 197, 187, 0.3); border-bottom-color: rgba(57, 197, 187, 0.3); background-color: rgba(15, 23, 42, 0.04); color: rgb(15, 23, 42);"
           tabindex="-1"
@@ -274,7 +274,7 @@ exports[`QuizFlow > 初期レンダリング: 1問目・進捗バー・選択肢
         </button>
         <button
           aria-checked="false"
-          class="w-full text-left btn-option sm:px-5 sm:py-4 sm:text-base transition-all duration-150 leading-snug"
+          class="w-full text-left btn-option transition-all duration-150 leading-snug"
           role="radio"
           style="border-style: solid; border-left-width: 4px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-color: rgba(57, 197, 187, 0.5); border-top-color: rgba(57, 197, 187, 0.3); border-right-color: rgba(57, 197, 187, 0.3); border-bottom-color: rgba(57, 197, 187, 0.3); background-color: rgba(15, 23, 42, 0.04); color: rgb(15, 23, 42);"
           tabindex="-1"

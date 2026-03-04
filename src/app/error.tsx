@@ -15,13 +15,16 @@ export default function GlobalError({
   reset: () => void;
 }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center bg-gray-50">
+    <div
+      className="min-h-screen flex flex-col items-center justify-center px-4 text-center"
+      style={{ background: "linear-gradient(135deg, #0e0c00 0%, #00110e 100%)" }}
+    >
       <div className="max-w-sm space-y-5">
         <div className="text-5xl" aria-hidden="true">⚠️</div>
-        <h2 className="text-2xl font-bold text-gray-800">
+        <h2 className="text-2xl font-bold text-white">
           エラーが発生しました
         </h2>
-        <p className="text-gray-500 text-sm leading-relaxed">
+        <p className="text-sm text-volt-muted leading-relaxed">
           予期しないエラーが発生しました。
           <br />
           再試行するか、トップページに戻ってください。
@@ -30,13 +33,14 @@ export default function GlobalError({
           <button
             type="button"
             onClick={reset}
-            className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors"
+            className="btn-primary text-black transition-opacity hover:opacity-90"
+            style={{ background: "linear-gradient(135deg, #fee023 0%, #43d9bf 100%)" }}
           >
             再試行する
           </button>
           <Link
             href="/"
-            className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition-colors"
+            className="btn-primary bg-volt-surface text-white/80 border border-volt-edge hover:bg-volt-edge transition-colors"
           >
             トップへ戻る
           </Link>

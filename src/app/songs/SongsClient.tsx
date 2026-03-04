@@ -1,161 +1,25 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useCallback, memo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { SONGS } from '@/data/songs'
 import { SongLinkButtons } from '@/components/SongLinkButtons'
-import { SongIntro } from '@/components/SongIntro'
+import { SongKaraoke } from '@/components/SongKaraoke'
+import { SongDetailsGroup } from '@/components/SongDetailsGroup'
 import { VOCALOID_LABEL, buildFeatStr } from '@/lib/vocaloidLabels'
 import { isNewSong } from '@/lib/songUtils'
+import { ParticleBackground } from '@/components/ParticleBackground'
 import type { Song, Feel, EvalGrade, PkmnGen } from '@/types/song'
-
-// --- 定数 ---
-
-const ALL_FEELS: Feel[] = [
-  '感動/泣ける', '懐かしい', 'かわいい', 'かっこいい', 'チル/癒し', '疾走感/ノリ', '中毒性/リピート',
-]
-const ALL_GRADES: EvalGrade[] = ['殿堂入り', '高評価/名曲']
-const ALL_GENS: PkmnGen[]   = ['gen1', 'gen2', 'gen3', 'gen4', 'gen5', 'gen6', 'gen7', 'gen8', 'gen9', 'gen10']
-
-// songs.ts の配列から重複排除してキャラ一覧を生成
-const ALL_VOCALOIDS: string[] = Array.from(new Set(SONGS.flatMap(s => s.vocaloids))).sort()
-
-const FEEL_LABEL: Record<Feel, string> = {
-  '感動/泣ける':     '感動',
-  '懐かしい':        '懐かしい',
-  'かわいい':        'かわいい',
-  'かっこいい':      'かっこいい',
-  'チル/癒し':       'チル/癒し',
-  '疾走感/ノリ':     '疾走感',
-  '中毒性/リピート': '中毒性',
-}
-const GEN_LABEL: Record<PkmnGen, string> = {
-  gen1:  '第1世代',
-  gen2:  '第2世代',
-  gen3:  '第3世代',
-  gen4:  '第4世代',
-  gen5:  '第5世代',
-  gen6:  '第6世代',
-  gen7:  '第7世代',
-  gen8:  '第8世代',
-  gen9:  '第9世代',
-  gen10: '第10世代',
-}
-const GEN_GAMES_FULL: Record<PkmnGen, string> = {
-  gen1:  '赤・緑・青・ピカチュウ（1996〜）',
-  gen2:  '金・銀・クリスタル（1999〜）',
-  gen3:  'ルビー・サファイア・エメラルド（2002〜）',
-  gen4:  'ダイヤモンド・パール・プラチナ（2006〜）',
-  gen5:  'ブラック・ホワイト（2010〜）',
-  gen6:  'X・Y（2013〜）',
-  gen7:  'サン・ムーン（2016〜）',
-  gen8:  'ソード・シールド（2019〜）',
-  gen9:  'スカーレット・バイオレット（2022〜）',
-  gen10: 'レジェンズ Z-A（2025〜）',
-}
-const CATEGORY_HELP: Record<string, string> = {
-  feels:    '気分・雰囲気で絞り込みます。OR モードではいずれかに当てはまる曲、AND モードではすべてに当てはまる曲を表示します。',
-  grade:    'サイト開発者が YouTube 動画の投稿日・再生数・コメント欄を元に評価し独自にタグ付け。特に強い傾向が見られた曲を「高評価」、評価が抜きん出ていた曲を「殿堂入り」としています。',
-  vocaloid: 'メインボーカルまたは印象的なパートを担当しているキャラクターで絞り込みます。OR モードではいずれかのキャラが参加している曲、AND モードではすべてのキャラが参加している曲を表示します。',
-  gen:              '登場するポケモンの世代で絞り込みます。世代情報がない曲は選択時に非表示になります。',
-  pokemon_criteria: '各曲の MV に登場するポケモンから代表的なものを最大3体、紫タグで表示しています。世代フィルタの絞り込みにも使われます。登場ポケモンが多い曲では一部のみの掲載になります。',
-}
-/** songs.ts の pokemon_names（英語）→ 日本語表示名 */
-const POKEMON_JP: Record<string, string> = {
-  // Gen 1
-  Pikachu:      'ピカチュウ',
-  Raichu:       'ライチュウ',
-  Clefairy:     'ピッピ',
-  Jigglypuff:   'プリン',
-  Mewtwo:       'ミュウツー',
-  Mew:          'ミュウ',
-  Bulbasaur:    'フシギダネ',
-  Ivysaur:      'フシギソウ',
-  Venusaur:     'フシギバナ',
-  Charmander:   'ヒトカゲ',
-  Squirtle:     'ゼニガメ',
-  Gengar:       'ゲンガー',
-  Cubone:       'カラカラ',
-  Eevee:        'イーブイ',
-  Voltorb:      'ビリリダマ',
-  Electrode:    'マルマイン',
-  Arbok:        'アーボック',
-  Nidoking:     'ニドキング',
-  Slowpoke:     'ヤドン',
-  Ditto:        'メタモン',
-  // Gen 2
-  Pichu:        'ピチュー',
-  Espeon:       'エーフィ',
-  Ledyba:       'レディバ',
-  Sudowoodo:    'ウソッキー',
-  Lugia:        'ルギア',
-  'Ho-Oh':      'ホウオウ',
-  Houndoom:     'ヘルガー',
-  // Gen 3
-  Mudkip:       'ミズゴロウ',
-  Gardevoir:    'サーナイト',
-  Milotic:      'ミロカロス',
-  Latias:       'ラティアス',
-  Latios:       'ラティオス',
-  Deoxys:       'デオキシス',
-  Pelipper:     'ペリッパー',
-  Swablu:       'チルット',
-  Azurill:      'ルリリ',
-  Mawile:       'クチート',
-  // Gen 4
-  Bidoof:       'ビッパ',
-  Bibarel:      'ビーダル',
-  Garchomp:     'ガブリアス',
-  Spiritomb:    'ミカルゲ',
-  Roserade:     'ロズレイド',
-  Lucario:      'ルカリオ',
-  Togekiss:     'トゲキッス',
-  'Mime Jr.':   'マネネ',
-  Bronzong:     'ドータクン',
-  'Porygon-Z':  'ポリゴンZ',
-  'Heat Rotom': 'ヒートロトム',
-  // Gen 5
-  Meloetta:     'メロエッタ',
-  Zekrom:       'ゼクロム',
-  Reshiram:     'レシラム',
-  Foongus:      'タマゲタケ',
-  Amoonguss:    'モロバレル',
-  Ferroseed:    'テッシード',
-  Stunfisk:     'マッギョ',
-  // Gen 6
-  Goomy:        'ヌメラ',
-  // Gen 7
-  Mimikyu:      'ミミッキュ',
-  Incineroar:   'ガオガエン',
-  Sandygast:    'スナバァ',
-  // Gen 8
-  'Mr. Rime':   'ブリムオン',
-  Alcremie:     'マホイップ',
-  Polteageist:  'ポットデス',
-  Eiscue:       'コオリッポ',
-  Applin:       'カジッチュ',
-  // Gen 9
-  Miraidon:     'ミライドン',
-  Tinkaton:     'デカヌチャン',
-  Pawmot:       'パーモット',
-}
-
-// --- ユーティリティ ---
-
-function toggleItem<T>(arr: T[], item: T): T[] {
-  return arr.includes(item) ? arr.filter(x => x !== item) : [...arr, item]
-}
-
-
-/** "YYYY-MM-DD" → "YYYY.MM.DD" */
-function formatDate(iso: string): string {
-  return iso.replace(/-/g, '.')
-}
+import {
+  ALL_FEELS, ALL_GRADES, ALL_GENS, ALL_VOCALOIDS,
+  FEEL_LABEL, GEN_LABEL, GEN_GAMES_FULL, CATEGORY_HELP, POKEMON_JP,
+  toggleItem, formatDate,
+} from './songsConstants'
 
 // --- FilterChip ---
 
-function FilterChip({
+const FilterChip = memo(function FilterChip({
   label,
   active,
   onClick,
@@ -183,11 +47,11 @@ function FilterChip({
       {label}
     </button>
   )
-}
+})
 
 // --- タグバッジ共通コンポーネント ---
 
-function GradeBadge({ grade }: { grade: EvalGrade }) {
+const GradeBadge = memo(function GradeBadge({ grade }: { grade: EvalGrade }) {
   const isHall = grade === '殿堂入り'
   return (
     <span
@@ -201,9 +65,9 @@ function GradeBadge({ grade }: { grade: EvalGrade }) {
       {isHall ? '★ 殿堂入り' : '✓ 名曲'}
     </span>
   )
-}
+})
 
-function NewBadge() {
+const NewBadge = memo(function NewBadge() {
   return (
     <span
       className="text-xs px-1.5 py-0.5 rounded font-bold"
@@ -212,11 +76,11 @@ function NewBadge() {
       NEW
     </span>
   )
-}
+})
 
 // --- SongCard (グリッドビュー) ---
 
-function SongCard({
+const SongCard = memo(function SongCard({
   song,
   isActive,
   onToggle,
@@ -260,17 +124,22 @@ function SongCard({
 
       {/* 情報エリア */}
       <div className="px-4 py-3 space-y-2 flex-1">
-        {/* タイトル・アーティスト feat. */}
-        <div>
-          <p className="text-sm font-bold text-white leading-snug">{song.title}</p>
-          <p className="text-xs text-volt-muted mt-0.5">
-            {song.artist}{buildFeatStr(song)}
-          </p>
-          {song.release_date && (
-            <p className="text-xs mt-0.5" style={{ color: '#8891a4' }}>
-              {formatDate(song.release_date)}
+        {/* タイトル・アーティスト feat. + リンクアイコン */}
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <p className="text-sm font-bold text-white leading-snug">{song.title}</p>
+            <p className="text-xs text-volt-muted mt-0.5">
+              {song.artist}{buildFeatStr(song)}
             </p>
-          )}
+            {song.release_date && (
+              <p className="text-xs mt-0.5" style={{ color: '#8891a4' }}>
+                {formatDate(song.release_date)}
+              </p>
+            )}
+          </div>
+          <div className="shrink-0 mt-0.5">
+            <SongLinkButtons youtubeId={song.youtube_id} officialUrl={song.official_url} compact />
+          </div>
         </div>
 
         {/* タグ（新曲・グレード・feels・登場ポケモン） */}
@@ -296,29 +165,26 @@ function SongCard({
           ))}
         </div>
 
-        {/* リンク / 閉じる */}
-        <div className="flex items-center justify-between pt-0.5 gap-2">
-          <SongLinkButtons youtubeId={song.youtube_id} officialUrl={song.official_url} />
+        {/* アクション行（曲紹介・カラオケ） */}
+        <div className="flex items-center gap-2 flex-wrap pt-1 border-t border-volt-edge/50">
+          <SongDetailsGroup intro={song.intro} karaoke={song.karaoke} inline />
           {isActive && (
             <button
               onClick={onToggle}
-              className="shrink-0 text-xs text-volt-muted hover:text-white/60 transition-colors"
+              className="shrink-0 text-xs text-volt-muted hover:text-white/60 transition-colors ml-auto"
             >
               ✕ 閉じる
             </button>
           )}
         </div>
-
-        {/* 曲紹介 */}
-        <SongIntro intro={song.intro} />
       </div>
     </div>
   )
-}
+})
 
 // --- SongRow (リストビュー) ---
 
-function SongRow({
+const SongRow = memo(function SongRow({
   song,
   isActive,
   onToggle,
@@ -390,18 +256,23 @@ function SongRow({
               </span>
             ))}
           </div>
-          <div className="mt-2">
-            <SongLinkButtons youtubeId={song.youtube_id} officialUrl={song.official_url} />
+          <div className="flex items-center gap-1.5 mt-1.5">
+            <SongLinkButtons youtubeId={song.youtube_id} officialUrl={song.official_url} compact />
+            {song.intro && (
+              <button
+                onClick={onShowIntro}
+                className="inline-flex items-center justify-center w-7 h-7 rounded-lg border border-volt-yellow/30 text-volt-yellow/70 hover:border-volt-yellow/50 hover:text-volt-yellow transition-colors"
+                title="曲紹介"
+                aria-label="曲紹介"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="16" x2="12" y2="12" />
+                  <line x1="12" y1="8" x2="12.01" y2="8" />
+                </svg>
+              </button>
+            )}
           </div>
-          {song.intro && (
-            <button
-              onClick={onShowIntro}
-              className="inline-flex items-center gap-1 mt-1 text-xs px-2.5 py-1.5 rounded-lg border border-volt-yellow/30 text-volt-yellow/70 hover:border-volt-yellow/50 hover:text-volt-yellow transition-colors"
-            >
-              <span className="text-[10px]">▶</span>
-              曲紹介を見る
-            </button>
-          )}
         </div>
 
         {/* 閉じるボタン */}
@@ -415,7 +286,7 @@ function SongRow({
       </div>
     </div>
   )
-}
+})
 
 // --- メインコンポーネント ---
 
@@ -521,6 +392,10 @@ export default function SongsClient() {
     setHelpOpen(prev => prev === key ? null : key)
   }
 
+  const handleToggleSong = useCallback((youtubeId: string) => {
+    setActiveVideoId(prev => prev === youtubeId ? null : youtubeId)
+  }, [])
+
   const isZeroResult = filtered.length === 0
 
   return (
@@ -528,57 +403,22 @@ export default function SongsClient() {
       className="relative min-h-screen overflow-hidden"
       style={{ background: 'linear-gradient(135deg, #0e0c00 0%, #00110e 100%)' }}
     >
-      {/* 背景グリッド */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: [
-            'linear-gradient(rgba(67,217,191,0.07) 1px, transparent 1px)',
-            'linear-gradient(90deg, rgba(67,217,191,0.07) 1px, transparent 1px)',
-          ].join(', '),
-          backgroundSize: '48px 48px',
-        }}
-      />
-
-      {/* 浮遊ドット + ホタル */}
-      <svg
-        className="absolute inset-0 w-full h-full pointer-events-none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {([
+      <ParticleBackground
+        prefix="songs"
+        dots={[
           { x: 5,  y: 10, r: 1.5, color: '#43d9bf', dur: 13, delay: 0 },
           { x: 93, y: 7,  r: 1,   color: '#fee023', dur: 12, delay: -2.8 },
           { x: 8,  y: 42, r: 1,   color: '#43d9bf', dur: 11, delay: -5.5 },
           { x: 95, y: 35, r: 1.5, color: '#fee023', dur: 14, delay: -1.2 },
           { x: 4,  y: 68, r: 1,   color: '#43d9bf', dur: 15, delay: -8.0 },
           { x: 92, y: 75, r: 1.5, color: '#fee023', dur: 10, delay: -3.9 },
-        ] as const).map((d, i) => (
-          <circle
-            key={`dot-${i}`}
-            className="svg-particle"
-            cx={`${d.x}%`} cy={`${d.y}%`} r={d.r} fill={d.color} opacity={0.55}
-            style={{
-              animation: `${(['dot-float-a', 'dot-float-b', 'dot-float-c'] as const)[i % 3]} ${d.dur}s ease-in-out infinite`,
-              animationDelay: `${d.delay}s`,
-            }}
-          />
-        ))}
-        {([
+        ]}
+        fireflies={[
           { x: 7,  y: 20, r: 3,   color: '#43d9bf', dur: 7, delay: 0 },
           { x: 92, y: 15, r: 3.5, color: '#fee023', dur: 6, delay: -2.0 },
           { x: 4,  y: 55, r: 2.5, color: '#43d9bf', dur: 8, delay: -4.3 },
-        ] as const).map((f, i) => (
-          <circle
-            key={`ff-${i}`}
-            className="svg-particle"
-            cx={`${f.x}%`} cy={`${f.y}%`} r={f.r} fill={f.color}
-            style={{
-              animation: `firefly-pulse ${f.dur}s ease-in-out infinite`,
-              animationDelay: `${f.delay}s`,
-            }}
-          />
-        ))}
-      </svg>
+        ]}
+      />
 
       {/* コンテンツ */}
       <div className="relative z-10">
@@ -743,11 +583,7 @@ export default function SongsClient() {
                   key={song.id}
                   song={song}
                   isActive={activeVideoId === song.youtube_id}
-                  onToggle={() =>
-                    setActiveVideoId(prev =>
-                      prev === song.youtube_id ? null : song.youtube_id
-                    )
-                  }
+                  onToggle={() => handleToggleSong(song.youtube_id)}
                 />
               ))}
             </div>
@@ -758,11 +594,7 @@ export default function SongsClient() {
                   key={song.id}
                   song={song}
                   isActive={activeVideoId === song.youtube_id}
-                  onToggle={() =>
-                    setActiveVideoId(prev =>
-                      prev === song.youtube_id ? null : song.youtube_id
-                    )
-                  }
+                  onToggle={() => handleToggleSong(song.youtube_id)}
                   onShowIntro={() => setIntroSong(song)}
                 />
               ))}
@@ -1152,6 +984,7 @@ export default function SongsClient() {
                 <p key={i} className="text-xs text-white/70 leading-relaxed">{p}</p>
               ))}
             </div>
+            {introSong.karaoke && <SongKaraoke karaoke={introSong.karaoke} />}
           </div>
         </div>
       )}

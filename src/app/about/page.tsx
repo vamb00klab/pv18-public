@@ -132,7 +132,7 @@ export default function AboutPage() {
               rel="noopener noreferrer"
               className="text-sm text-volt-cyan hover:underline"
             >
-              ポケモン feat. 初音ミク Project VOLTAGE 公式サイト →
+              ポケモン feat. 初音ミク Project VOLTAGE 公式サイト ↗
             </a>
           </div>
         </section>
@@ -214,16 +214,6 @@ export default function AboutPage() {
             </p>
           </div>
         </section>
-
-        {/* 戻るリンク */}
-        <div className="pt-4">
-          <Link
-            href="/"
-            className="text-xs text-volt-muted hover:text-white/60 transition-colors underline underline-offset-2"
-          >
-            ← トップへ戻る
-          </Link>
-        </div>
 
       </div>
     </main>

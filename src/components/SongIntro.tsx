@@ -11,7 +11,7 @@ export function SongIntro({ intro }: { intro?: string }) {
     <details className="text-left">
       <summary className="cursor-pointer select-none list-none inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg border border-volt-yellow/30 text-volt-yellow/70 hover:border-volt-yellow/50 hover:text-volt-yellow transition-colors">
         <span className="details-arrow text-[10px]">▶</span>
-        曲紹介を見る
+        曲紹介
       </summary>
       <div className="mt-2 space-y-2 max-h-40 overflow-y-auto">
         {paragraphs.map((p, i) => (

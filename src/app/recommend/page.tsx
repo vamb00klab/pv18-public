@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import PageHeader from "@/components/PageHeader"
 import { SongLinkButtons } from "@/components/SongLinkButtons"
-import { SongIntro } from "@/components/SongIntro"
+import { SongDetailsGroup } from "@/components/SongDetailsGroup"
 import { GradientButton, GradientBorderLink } from "@/components/GradientButton"
 import { SONGS } from "@/data/songs"
 import { recommend } from "@/lib/recommend"
@@ -790,8 +790,8 @@ export default function RecommendPage() {
                   {/* 外部リンクボタン */}
                   <SongLinkButtons youtubeId={song.youtube_id} officialUrl={song.official_url} />
 
-                  {/* 曲紹介 */}
-                  <SongIntro intro={song.intro} />
+                  {/* 曲紹介・カラオケ */}
+                  <SongDetailsGroup intro={song.intro} karaoke={song.karaoke} />
                 </div>
                 )
               })
@@ -864,12 +864,6 @@ export default function RecommendPage() {
               </a>
             )}
 
-            <Link
-              href="/"
-              className="w-full block text-center btn-primary bg-volt-surface text-white/80 border border-volt-edge hover:bg-volt-edge transition-colors"
-            >
-              ← トップへ戻る
-            </Link>
           </div>
         )}
 
