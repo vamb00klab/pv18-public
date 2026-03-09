@@ -180,6 +180,35 @@ export default function LandingPage() {
           </div>
         </Link>
 
+        {/* コール＆レスポンスバナー */}
+        <Link
+          href="/live/calls"
+          className="live-banner block w-full rounded-2xl overflow-hidden transition-transform hover:scale-[1.01] active:scale-[0.99]"
+        >
+          <div
+            className="relative flex items-center justify-between gap-3 px-5 py-5"
+            style={{
+              backgroundImage: "url(/banners/call-banner.png)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: "linear-gradient(to right, rgba(0,0,0,0.6) 35%, transparent 85%)" }}
+            />
+            <div className="relative z-10 space-y-1 min-w-0 text-left">
+              <p
+                className="text-sm font-black text-volt-cyan tracking-[0.3em] uppercase"
+                style={{ textShadow: "0 0 24px rgba(67,217,191,0.8), 0 0 8px rgba(67,217,191,0.5)" }}
+              >CALL &amp; RESPONSE</p>
+              <p className="text-base font-bold text-white leading-snug">コール＆レスポンスまとめ</p>
+              <p className="text-xs text-white/60">アーティスト公認のコールガイド →</p>
+            </div>
+            <span className="relative z-10 text-volt-cyan text-lg flex-shrink-0">→</span>
+          </div>
+        </Link>
+
         {/* Feature cards — 対等な 2 本柱 */}
         <div className="grid grid-cols-2 gap-3 sm:gap-4 text-left">
 

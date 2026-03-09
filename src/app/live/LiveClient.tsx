@@ -850,6 +850,13 @@ function GuidelineSection() {
         >
           公式ガイドライン全文を見る ↗
         </a>
+
+        <a
+          href="/live/calls"
+          className="block text-center text-xs font-medium text-volt-yellow border border-volt-yellow/30 rounded-xl px-4 py-2.5 hover:bg-volt-yellow/10 transition-colors"
+        >
+          コール＆レスポンスまとめ →
+        </a>
       </div>
     </section>
   );

@@ -129,6 +129,8 @@ export const POKEMON_JP: Record<string, string> = {
   Polteageist:  'ポットデス',
   Eiscue:       'コオリッポ',
   Applin:       'カジッチュ',
+  Zacian:       'ザシアン',
+  Zamazenta:    'ザマゼンタ',
   // Gen 9
   Miraidon:     'ミライドン',
   Tinkaton:     'デカヌチャン',

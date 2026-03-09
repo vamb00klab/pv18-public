@@ -20,7 +20,7 @@
 | 結果シェア | X(Twitter)シェア + URL コピー |
 | 結果再現 | 回答を URL (`?a=...`) にシリアライズ → リロードでも復元可能 |
 | コンテンツ差し替え | タイプ名・質問・ブランド名を env/データファイルのみで変更可 |
-| LIVE 特設 | カウントダウン・セトリ予想・持ち物チェック・会場ガイド |
+| LIVE 特設 | カウントダウン・セトリ予想・持ち物チェック・会場ガイド・コール＆レスポンスまとめ |
 | フィードバック | 右下フロートモーダルでフィードバックを送信 |
 
 ---
@@ -82,7 +82,11 @@ src/
 │   ├── live/
 │   │   ├── page.tsx           # LIVE イベント特設ページ (/live)
 │   │   ├── LiveClient.tsx     # 6セクション Client Component
-│   │   └── liveData.ts        # EVENT_CONFIG・カウントダウン・ガイドライン
+│   │   ├── liveData.ts        # EVENT_CONFIG・カウントダウン・ガイドライン
+│   │   └── calls/             # コール＆レスポンスまとめ (/live/calls)
+│   │       ├── page.tsx
+│   │       ├── CallsClient.tsx
+│   │       └── callData.ts
 │   ├── about/page.tsx         # このサイトについて (/about)
 │   └── dev/                   # 開発専用（本番 404）
 │       ├── page.tsx           # リリース確認ダッシュボード
